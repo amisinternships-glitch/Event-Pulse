@@ -41,7 +41,6 @@ const ARRIVAL_ZONE_LINE_LAYER = "arrival-zones-line";
 
 const VERIFIED_DATE = "2026-04-04";
 const CURRENT_BROWSER_DATE = new Date().toLocaleDateString("en-CA");
-const EVENTS_API_URL = "/.netlify/functions/events";
 let verifiedDate = null;
 const fallbackEvents = [
   {
@@ -268,28 +267,49 @@ function applyEventsPayload(payload, useFallback = false) {
 }
 
 async function loadEventsData() {
+  const API_KEY = "PASTE_YOUR_KEY_HERE";
+
+  const today = new Date().toISOString().split("T")[0];
+
+  const url = `https://app.ticketmaster.com/discovery/v2/events.json?countryCode=US&startDateTime=${today}T00:00:00Z&endDateTime=${today}T23:59:59Z&size=20&apikey=${API_KEY}`;
+
   try {
-    const response = await fetch(EVENTS_API_URL, {
-      headers: {
-        Accept: "application/json",
+    const response = await fetch(url);
+    const data = await response.json();
+
+    const mappedEvents = (data._embedded?.events || []).map((e) => ({
+      id: e.id,
+      name: e.name,
+      type: "Concert",
+      city: e._embedded?.venues?.[0]?.city?.name || "Unknown",
+      venue: e._embedded?.venues?.[0]?.name || "Unknown",
+      timeZone: "ET",
+      coordinates: {
+        lat: parseFloat(e._embedded?.venues?.[0]?.location?.latitude),
+        lng: parseFloat(e._embedded?.venues?.[0]?.location?.longitude),
       },
+      startTime: e.dates?.start?.localTime || "TBD",
+      verifiedDate: today,
+      capacity: "Live data",
+      security: {
+        status: "Check venue",
+        summary: "Refer to venue policies for entry rules.",
+      },
+      venueInfo: [],
+    }));
+
+    applyEventsPayload({
+      verifiedDate: today,
+      events: mappedEvents,
     });
 
-    if (!response.ok) {
-      throw new Error(`Request failed (${response.status})`);
-    }
-
-    const payload = await response.json();
-    applyEventsPayload(payload);
   } catch (error) {
-    console.error("Falling back to bundled event data.", error);
-    applyEventsPayload(
-      {
-        verifiedDate: VERIFIED_DATE,
-        events: fallbackEvents,
-      },
-      true
-    );
+    console.error("API failed, using fallback", error);
+
+    applyEventsPayload({
+      verifiedDate: VERIFIED_DATE,
+      events: fallbackEvents,
+    });
   }
 }
 
