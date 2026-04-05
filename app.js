@@ -39,187 +39,216 @@ const ARRIVAL_ZONE_SOURCE = "arrival-zones";
 const ARRIVAL_ZONE_FILL_LAYER = "arrival-zones-fill";
 const ARRIVAL_ZONE_LINE_LAYER = "arrival-zones-line";
 
-const VERIFIED_DATE = "2026-04-04";
-const CURRENT_BROWSER_DATE = new Date().toLocaleDateString("en-CA");
+const VERIFIED_DATE = "2026-04-05";
 let verifiedDate = null;
 const fallbackEvents = [
   {
-    id: "zach-bryan-tulsa-night-2",
-    name: "Zach Bryan w/ Trampled By Turtles",
+    id: "verka-serduchka-los-angeles",
+    name: "Verka Serduchka",
     type: "Concert",
-    city: "Tulsa, OK",
-    venue: "H.A. Chapman Stadium",
-    timeZone: "CT",
-    coordinates: { lat: 36.1486, lng: -95.9435 },
-    startTime: "7:00 PM CT",
-    capacity: "Verified Saturday, April 4, 2026",
+    city: "Los Angeles, CA",
+    venue: "The Wiltern",
+    timeZone: "PT",
+    coordinates: { lat: 34.0611, lng: -118.3085 },
+    startTime: "7:00 PM PT",
+    capacity: "Verified Sunday, April 5, 2026",
     verifiedDate: VERIFIED_DATE,
     security: {
       status: "Venue policy in effect",
-      summary: "Tulsa uses stadium screening and a clear bag policy for entry. Review allowed items before you leave.",
+      summary: "The Wiltern is using bag checks, mobile-only ticketing, and a no re-entry rule for Sunday, April 5, 2026.",
     },
     venueInfo: [
       {
         label: "Bag policy",
-        title: "Clear bags only",
-        copy: 'Allowed bags include a 12" x 6" x 12" clear tote, a one-gallon clear bag, or a small clutch no larger than 4.5" x 6.5".',
-        url: "https://tulsahurricane.com/sports/2018/7/17/ticket-office-information.aspx",
+        title: "12 x 6 x 12 bag limit",
+        copy: 'Bags up to 12" x 6" x 12" are allowed, all bags are searched, and non-clear bags receive additional screening.',
+        url: "https://www.wiltern.com/visit",
       },
       {
-        label: "Food and drinks",
-        title: "Water bottle rule",
-        copy: "Outside food and beverages are not allowed, but empty clear water bottles up to 16 oz are permitted.",
-        url: "https://tulsahurricane.com/sports/2018/7/17/ticket-office-information.aspx",
+        label: "Bottle policy",
+        title: "Empty plastic bottles only",
+        copy: "Outside food and beverages are prohibited, but guests may bring one empty plastic water bottle to refill inside. Metal or glass containers are not allowed.",
+        url: "https://www.wiltern.com/visit",
+      },
+      {
+        label: "Entry restrictions",
+        title: "Mobile entry and no re-entry",
+        copy: "Tickets are mobile entry only, printed tickets are not available, and there is no re-entry once a ticket has been scanned.",
+        url: "https://www.wiltern.com/visit",
       },
       {
         label: "Verification",
         title: "Tonight's event",
-        copy: "Zach Bryan is listed for Saturday, April 4, 2026 at H.A. Chapman Stadium.",
-        url: "https://www.ticketmaster.com/zach-bryan-tickets/artist/2811359",
+        copy: "Verka Serduchka is listed at The Wiltern for Sunday, April 5, 2026 at 7:00 PM.",
+        url: "https://www.livenation.com/artist/K8vZ9172e_f/verka-serduchka-events",
       },
     ],
   },
   {
-    id: "twice-boston-night-2",
-    name: "TWICE [THIS IS FOR] WORLD TOUR IN BOSTON",
+    id: "the-devil-wears-prada-raleigh",
+    name: "THE DEVIL WEARS PRADA: FLOWERS TOUR",
     type: "Concert",
-    city: "Boston, MA",
-    venue: "TD Garden",
+    city: "Raleigh, NC",
+    venue: "The Ritz",
     timeZone: "ET",
-    coordinates: { lat: 42.3662, lng: -71.0621 },
-    startTime: "8:00 PM ET",
-    capacity: "Verified Saturday, April 4, 2026",
+    coordinates: { lat: 35.8055, lng: -78.6197 },
+    startTime: "7:00 PM ET",
+    capacity: "Verified Sunday, April 5, 2026",
     verifiedDate: VERIFIED_DATE,
     security: {
       status: "Venue policy in effect",
-      summary: "TD Garden has a strict bag rule and does not allow outside food or beverages at entry.",
+      summary: "The Ritz is using bag checks, mobile-only tickets, and a no re-entry rule for Sunday, April 5, 2026.",
+    },
+    venueInfo: [
+      {
+        label: "Bag policy",
+        title: "12 x 6 x 12 bag limit",
+        copy: 'Bags up to 12" x 6" x 12" are allowed, all bags are searched, and non-clear bags may get additional screening.',
+        url: "https://www.ritzraleigh.com/visit",
+      },
+      {
+        label: "Bottle policy",
+        title: "No outside drinks or bottles",
+        copy: "Outside food or drinks, including empty water bottles, are not permitted. Free filtered water is available inside the venue.",
+        url: "https://www.ritzraleigh.com/visit",
+      },
+      {
+        label: "Entry restrictions",
+        title: "Mobile entry and no in-and-out",
+        copy: "Tickets are mobile entry only, guests should be prepared to show ID if ticket help is needed, and re-entry is not permitted after entry.",
+        url: "https://www.ritzraleigh.com/visit",
+      },
+      {
+        label: "Verification",
+        title: "Tonight's event",
+        copy: "THE DEVIL WEARS PRADA: FLOWERS TOUR is listed at The Ritz for Sunday, April 5, 2026 with doors at 6:00 PM and show at 7:00 PM.",
+        url: "https://www.ticketmaster.com/the-devil-wears-prada-flowers-tour-raleigh-north-carolina-04-05-2026/event/2D00636CE2099205",
+      },
+    ],
+  },
+  {
+    id: "femtanyl-phoenix",
+    name: "femtanyl",
+    type: "Concert",
+    city: "Phoenix, AZ",
+    venue: "The Rebel Lounge",
+    timeZone: "MT",
+    coordinates: { lat: 33.4954, lng: -112.0327 },
+    startTime: "8:00 PM MT",
+    capacity: "Verified Sunday, April 5, 2026",
+    verifiedDate: VERIFIED_DATE,
+    security: {
+      status: "Venue policy in effect",
+      summary: "The Rebel Lounge is enforcing bag searches, all-ages entry rules, and limited re-entry for Sunday, April 5, 2026.",
+    },
+    venueInfo: [
+      {
+        label: "Bag policy",
+        title: "No backpacks",
+        copy: "Backpacks are not allowed. Smaller bags are permitted, but they will be searched at the door.",
+        url: "https://therebellounge.com/faq/",
+      },
+      {
+        label: "Bottle policy",
+        title: "No outside food or beverages",
+        copy: "Outside food and beverages are not permitted at The Rebel Lounge.",
+        url: "https://therebellounge.com/faq/",
+      },
+      {
+        label: "Entry restrictions",
+        title: "All ages with limited re-entry",
+        copy: "The April 5 femtanyl show is listed as all ages. Guests under 21 do not get re-entry, and guests over 21 should not expect in-and-out privileges.",
+        url: "https://therebellounge.com/faq/",
+      },
+      {
+        label: "Verification",
+        title: "Tonight's event",
+        copy: "femtanyl is listed at The Rebel Lounge for Sunday, April 5, 2026 with doors at 7:00 PM and show at 8:00 PM.",
+        url: "https://therebellounge.com/events/",
+      },
+    ],
+  },
+  {
+    id: "odumodublvck-silver-spring",
+    name: "ODUMODUBLVCK - THE INDUSTRY MACHINE TOUR",
+    type: "Concert",
+    city: "Silver Spring, MD",
+    venue: "The Fillmore Silver Spring",
+    timeZone: "ET",
+    coordinates: { lat: 38.9977, lng: -77.0261 },
+    startTime: "8:00 PM ET",
+    capacity: "Verified Sunday, April 5, 2026",
+    verifiedDate: VERIFIED_DATE,
+    security: {
+      status: "Venue policy in effect",
+      summary: "The Fillmore Silver Spring is enforcing bag checks, mobile-only entry, and no re-entry for Sunday, April 5, 2026.",
     },
     venueInfo: [
       {
         label: "Bag policy",
         title: "Small bags only",
-        copy: 'Bags larger than 4" x 6" x 1.5" are not allowed. Backpacks, briefcases, and oversized purses are prohibited.',
-        url: "https://www.tdgarden.com/a-z-guide",
+        copy: 'Bags up to 12" x 6" x 12" are allowed. All bags are searched, non-clear bags get additional screening, and backpacks are not allowed.',
+        url: "https://www.fillmoresilverspring.com/visit",
       },
       {
-        label: "Food and drinks",
-        title: "No outside beverages",
-        copy: "Outside food and beverages, cans, bottles, and coolers are not permitted inside TD Garden.",
-        url: "https://www.tdgarden.com/a-z-guide",
+        label: "Bottle policy",
+        title: "No outside bottles or drinks",
+        copy: "Outside food, drinks, snacks, and candy are prohibited. Bottles, camelbacks, hydroflasks, cups, and cans are also not allowed inside.",
+        url: "https://www.fillmoresilverspring.com/visit",
       },
       {
-        label: "Verification",
-        title: "Tonight's event",
-        copy: "TWICE is listed at TD Garden for Saturday, April 4, 2026 with an 8:00 PM start.",
-        url: "https://www.ticketmaster.com/twice-tickets/artist/2548848?venueId=8337",
-      },
-    ],
-  },
-  {
-    id: "eric-church-charlotte",
-    name: "Eric Church: Free The Machine Tour",
-    type: "Concert",
-    city: "Charlotte, NC",
-    venue: "Spectrum Center",
-    timeZone: "ET",
-    coordinates: { lat: 35.2251, lng: -80.8392 },
-    startTime: "7:30 PM ET",
-    capacity: "Verified Saturday, April 4, 2026",
-    verifiedDate: VERIFIED_DATE,
-    security: {
-      status: "Venue policy in effect",
-      summary: "Spectrum Center uses a no-bag policy for concerts like Eric Church, with only very small wallet exceptions.",
-    },
-    venueInfo: [
-      {
-        label: "Bag policy",
-        title: "No bag policy",
-        copy: 'Most concert events use a no-bag policy, with exceptions for small wallets up to 4" x 6" x 1.5", plus diaper and medical bags.',
-        url: "https://www.spectrumcentercharlotte.com/plan-your-visit/a-z-guide",
-      },
-      {
-        label: "Food and drinks",
-        title: "No outside food or drink",
-        copy: "Outside food, beverages, bottles, cans, and coolers are not allowed inside Spectrum Center.",
-        url: "https://www.spectrumcentercharlotte.com/plan-your-visit/a-z-guide",
+        label: "Entry restrictions",
+        title: "Mobile entry and no re-entry",
+        copy: "Tickets are mobile entry only, most shows are all ages unless the calendar says otherwise, and guests who leave cannot re-enter without a new ticket.",
+        url: "https://www.fillmoresilverspring.com/visit",
       },
       {
         label: "Verification",
         title: "Tonight's event",
-        copy: "Eric Church is listed at Spectrum Center for Saturday, April 4, 2026 at 7:30 PM.",
-        url: "https://www.ticketmaster.com/eric-church-tickets/artist/1020885?page=277",
+        copy: "ODUMODUBLVCK - THE INDUSTRY MACHINE TOUR is listed at The Fillmore Silver Spring for Sunday, April 5, 2026.",
+        url: "https://www.livenation.com/event/1avfZ_dbIj-Zd21a/odumodublvck-the-industry-machine-tour",
       },
     ],
   },
   {
-    id: "journey-wichita",
-    name: "Journey",
-    type: "Concert",
-    city: "Wichita, KS",
-    venue: "INTRUST Bank Arena",
-    timeZone: "CT",
-    coordinates: { lat: 37.6842, lng: -97.3375 },
-    startTime: "7:30 PM CT",
-    capacity: "Verified Saturday, April 4, 2026",
-    verifiedDate: VERIFIED_DATE,
-    security: {
-      status: "Venue policy in effect",
-      summary: "INTRUST Bank Arena uses a clear bag policy and screening at entry, so bringing only approved items will speed things up.",
-    },
-    venueInfo: [
-      {
-        label: "Bag policy",
-        title: "Clear bag entry",
-        copy: 'Permitted bags include clear bags up to 14" x 6" x 14", one-gallon clear bags, or a small clutch up to 5.5" x 8.5".',
-        url: "https://www.intrustbankarena.com/harlem",
-      },
-      {
-        label: "Screening",
-        title: "Security checkpoint",
-        copy: "The arena notes that its clear bag policy is designed to speed up entry, improve security, and reduce touch points.",
-        url: "https://www.intrustbankarena.com/harlem",
-      },
-      {
-        label: "Verification",
-        title: "Tonight's event",
-        copy: "Journey is listed in Wichita at INTRUST Bank Arena for Saturday, April 4, 2026.",
-        url: "https://www.ticketmaster.com/journey-tickets/artist/735415",
-      },
-    ],
-  },
-  {
-    id: "devo-reno",
-    name: "DEVO: Mutate Don't Stagnate",
+    id: "satchvai-band-reno",
+    name: "SatchVai Band: Animals as Leaders",
     type: "Concert",
     city: "Reno, NV",
     venue: "Grand Theatre at Grand Sierra Resort",
     timeZone: "PT",
     coordinates: { lat: 39.5226, lng: -119.7765 },
-    startTime: "8:00 PM PT",
-    capacity: "Verified Saturday, April 4, 2026",
+    startTime: "7:30 PM PT",
+    capacity: "Verified Sunday, April 5, 2026",
     verifiedDate: VERIFIED_DATE,
     security: {
       status: "Venue policy in effect",
-      summary: "Grand Sierra Resort requires mobile tickets from the original source and checks venue policy at the theatre entrance.",
+      summary: "Grand Sierra Resort is enforcing bag limits, no outside drinks, and ticket checks for Sunday, April 5, 2026.",
     },
     venueInfo: [
       {
-        label: "Tickets",
-        title: "Mobile tickets required",
-        copy: "Screenshots, photos, or printed email copies are not accepted. Tickets must be shown from the original mobile source.",
-        url: "https://www.grandsierraresort.com/tickets/",
+        label: "Bag policy",
+        title: "Limited bag entry",
+        copy: "Backpacks, coolers, and briefcases are prohibited. Medical and diaper bags are allowed, and all permitted bags are subject to search.",
+        url: "https://www.grandsierraresort.com/entertainment/venue-policies",
       },
       {
-        label: "Venue rules",
-        title: "Check theatre policy before entry",
-        copy: "Grand Sierra Resort directs guests to review event restrictions in advance and arrive with valid mobile tickets for theatre access.",
+        label: "Bottle policy",
+        title: "No outside food or drinks",
+        copy: "Outside food and beverages are not allowed inside Grand Sierra Resort entertainment venues.",
+        url: "https://www.grandsierraresort.com/entertainment/venue-policies",
+      },
+      {
+        label: "Entry restrictions",
+        title: "Original mobile ticket required",
+        copy: "Screenshots, photos, and printed email copies are not accepted. Tickets must be shown from the original mobile source to enter the Grand Theatre.",
         url: "https://www.grandsierraresort.com/tickets/",
       },
       {
         label: "Verification",
         title: "Tonight's event",
-        copy: "DEVO is listed at the Grand Theatre for Saturday, April 4, 2026 at 8:00 PM.",
-        url: "https://www.ticketmaster.com/devo-tickets/artist/869383",
+        copy: "SatchVai Band: Animals as Leaders is listed at Grand Sierra Resort for Sunday, April 5, 2026 at 7:30 PM with doors at 6:30 PM.",
+        url: "https://www.grandsierraresort.com/entertainment/concerts-and-shows/satchvai-band",
       },
     ],
   },
@@ -242,13 +271,20 @@ function formatVerifiedDate(dateString) {
   }).format(date);
 }
 
+function getLocalDateString() {
+  const now = new Date();
+  return new Date(now.getFullYear(), now.getMonth(), now.getDate())
+    .toISOString()
+    .split("T")[0];
+}
+
 function getCoverageMessage() {
   if (!verifiedDate || !todayEvents.length) {
     return "Coverage is ready for the next verified refresh.";
   }
 
   const label = formatVerifiedDate(verifiedDate);
-  if (verifiedDate !== CURRENT_BROWSER_DATE) {
+  if (verifiedDate !== getLocalDateString()) {
     return `Showing ${todayEvents.length} U.S. events verified for ${label}. Daily refresh is still pending for the current browser date.`;
   }
 
@@ -269,7 +305,7 @@ function applyEventsPayload(payload, useFallback = false) {
 async function loadEventsData() {
   const API_KEY = "PASTE_YOUR_KEY_HERE";
 
-  const today = new Date().toISOString().split("T")[0];
+  const today = getLocalDateString();
 
   const url = `https://app.ticketmaster.com/discovery/v2/events.json?countryCode=US&startDateTime=${today}T00:00:00Z&endDateTime=${today}T23:59:59Z&size=20&apikey=${API_KEY}`;
 
@@ -829,12 +865,6 @@ function restartLiveEstimateLoop(event) {
 }
 
 function renderArrivalStrategy(event, trafficState) {
-  const minutesUntilStart = getMinutesUntilStart(event);
-  const arrivalLead =
-    minutesUntilStart > 0
-      ? `${minutesUntilStart} minutes until showtime`
-      : "Event start window is active now";
-
   nodes.arrivalStrategy.innerHTML = `
     <div class="travel-stat pulse-in">
       <div class="list-topline">
@@ -846,7 +876,7 @@ function renderArrivalStrategy(event, trafficState) {
     <div class="travel-stat pulse-in">
       <p class="list-label">Best Arrival Window</p>
       <p class="travel-title">${getBestArrivalWindow(event)}</p>
-      <p class="list-copy">Plan to arrive about 60 to 90 minutes before the ${event.startTime} start. ${arrivalLead}.</p>
+      <p class="list-copy">Plan to arrive about 60 to 90 minutes before the ${event.startTime} start.</p>
     </div>
   `;
 }
