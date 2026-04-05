@@ -16,3 +16,9 @@
   for = "/*.css"
   [headers.values]
     Cache-Control = "public, max-age=3600"
+    
+[functions]
+  directory = "netlify/functions"
+
+[functions."refresh-events"]
+  schedule = "0 6 * * *"
