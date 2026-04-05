@@ -303,19 +303,24 @@ function applyEventsPayload(payload, useFallback = false) {
 }
 
 async function loadEventsData() {
-  try {
-    const res = await fetch("/.netlify/functions/events");
-    const data = await res.json();
+  const res = await fetch("/.netlify/functions/events");
+  const data = await res.json();
 
-    applyEventsPayload(data);
+  const container = document.getElementById("events");
+  container.innerHTML = "";
 
-  } catch (error) {
-    console.error("Failed to load events", error);
-  }
+  (data.events || []).forEach(event => {
+    const div = document.createElement("div");
+    div.innerHTML = `
+      <h3>${event.name}</h3>
+      <p>${event.city} - ${event.venue}</p>
+      <p>${event.startTime}</p>
+    `;
+    container.appendChild(div);
+  });
 }
 
 loadEventsData();
-
 function populateEvents() {
   eventSelect.innerHTML = "";
   eventSelect.disabled = false;
