@@ -1,5 +1,4 @@
 const eventSelect = document.getElementById("event-select");
-const eventDateInput = document.getElementById("event-date");
 const lastUpdated = document.getElementById("last-updated");
 const coverageNote = document.getElementById("coverage-note");
 const directionsLink = document.getElementById("directions-link");
@@ -30,7 +29,6 @@ let venueMarker;
 let liveEstimateTimer;
 let selectedTravelMode = "drive";
 let mapIsLoaded = false;
-let selectedDate = VERIFIED_DATE;
 
 const MAPBOX_TOKEN =
   window.EVENT_PULSE_MAPBOX_TOKEN ||
@@ -41,306 +39,188 @@ const ARRIVAL_ZONE_SOURCE = "arrival-zones";
 const ARRIVAL_ZONE_FILL_LAYER = "arrival-zones-fill";
 const ARRIVAL_ZONE_LINE_LAYER = "arrival-zones-line";
 
-const VERIFIED_DATE = "2026-04-06";
-const EVENTS_API_URL = "/api/events/today";
+const VERIFIED_DATE = "2026-04-04";
+const CURRENT_BROWSER_DATE = new Date().toLocaleDateString("en-CA");
+const EVENTS_API_URL = "/.netlify/functions/events";
 let verifiedDate = null;
 const fallbackEvents = [
   {
-    id: "twice-chicago-night-1",
-    name: "TWICE [THIS IS FOR] WORLD TOUR IN CHICAGO",
+    id: "zach-bryan-tulsa-night-2",
+    name: "Zach Bryan w/ Trampled By Turtles",
     type: "Concert",
-    city: "Chicago, IL",
-    venue: "United Center",
+    city: "Tulsa, OK",
+    venue: "H.A. Chapman Stadium",
     timeZone: "CT",
-    coordinates: { lat: 41.8807, lng: -87.6742 },
-    startTime: "8:00 PM CT",
-    capacity: "Verified Monday, April 6, 2026",
+    coordinates: { lat: 36.1486, lng: -95.9435 },
+    startTime: "7:00 PM CT",
+    capacity: "Verified Saturday, April 4, 2026",
     verifiedDate: VERIFIED_DATE,
     security: {
       status: "Venue policy in effect",
-      summary: "United Center is using a small-bag rule, no outside food or beverages, and metal-detector entry screening for Monday, April 6, 2026.",
+      summary: "Tulsa uses stadium screening and a clear bag policy for entry. Review allowed items before you leave.",
     },
-    nearbyOptions: {
-      parking: [
-        "Lot K on the east side of United Center",
-        "Lot H at 1851 W Madison Street",
-        "Lot C near Wood Street and Monroe Street",
-      ],
-      transit: [
-        "CTA Ashland station (Green and Pink Lines)",
-        "CTA 19 Madison bus stop near the arena",
-        "CTA 20 Madison and 9 Ashland route connections",
-      ],
-    },
-    accessibility: [
-      "wheelchair",
-      "accessible parking",
-      "assistive listening",
-      "elevators",
+    venueInfo: [
+      {
+        label: "Bag policy",
+        title: "Clear bags only",
+        copy: 'Allowed bags include a 12" x 6" x 12" clear tote, a one-gallon clear bag, or a small clutch no larger than 4.5" x 6.5".',
+        url: "https://tulsahurricane.com/sports/2018/7/17/ticket-office-information.aspx",
+      },
+      {
+        label: "Food and drinks",
+        title: "Water bottle rule",
+        copy: "Outside food and beverages are not allowed, but empty clear water bottles up to 16 oz are permitted.",
+        url: "https://tulsahurricane.com/sports/2018/7/17/ticket-office-information.aspx",
+      },
+      {
+        label: "Verification",
+        title: "Tonight's event",
+        copy: "Zach Bryan is listed for Saturday, April 4, 2026 at H.A. Chapman Stadium.",
+        url: "https://www.ticketmaster.com/zach-bryan-tickets/artist/2811359",
+      },
     ],
+  },
+  {
+    id: "twice-boston-night-2",
+    name: "TWICE [THIS IS FOR] WORLD TOUR IN BOSTON",
+    type: "Concert",
+    city: "Boston, MA",
+    venue: "TD Garden",
+    timeZone: "ET",
+    coordinates: { lat: 42.3662, lng: -71.0621 },
+    startTime: "8:00 PM ET",
+    capacity: "Verified Saturday, April 4, 2026",
+    verifiedDate: VERIFIED_DATE,
+    security: {
+      status: "Venue policy in effect",
+      summary: "TD Garden has a strict bag rule and does not allow outside food or beverages at entry.",
+    },
     venueInfo: [
       {
         label: "Bag policy",
         title: "Small bags only",
-        copy: 'Guests may bring a small purse or personal bag up to 10" x 6" x 2". Backpacks and larger bags are not allowed, except approved medical bags.',
-        url: "https://www.unitedcenter.com/venue/frequently-asked-questions/",
+        copy: 'Bags larger than 4" x 6" x 1.5" are not allowed. Backpacks, briefcases, and oversized purses are prohibited.',
+        url: "https://www.tdgarden.com/a-z-guide",
       },
       {
-        label: "Bottle policy",
-        title: "No outside food or bottles",
-        copy: "Outside food or beverages are not permitted inside the arena, and bottles or cans are listed among prohibited items.",
-        url: "https://www.unitedcenter.com/venue/frequently-asked-questions/",
-      },
-      {
-        label: "Entry restrictions",
-        title: "Mobile ticketing and screened entry",
-        copy: "United Center uses fully digital tickets, screenshots and print-at-home tickets are not valid, and all guests pass through visual inspection, bag check, and metal detection with no re-entry during the event.",
-        url: "https://www.unitedcenter.com/venue/mobile-ticketing-guide/",
+        label: "Food and drinks",
+        title: "No outside beverages",
+        copy: "Outside food and beverages, cans, bottles, and coolers are not permitted inside TD Garden.",
+        url: "https://www.tdgarden.com/a-z-guide",
       },
       {
         label: "Verification",
         title: "Tonight's event",
-        copy: "TWICE is listed at United Center for Monday, April 6, 2026 at 8:00 PM, with gates opening at 6:30 PM.",
-        url: "https://www.unitedcenter.com/events/2026/04/06/twice-this-is-for-world-tour/",
+        copy: "TWICE is listed at TD Garden for Saturday, April 4, 2026 with an 8:00 PM start.",
+        url: "https://www.ticketmaster.com/twice-tickets/artist/2548848?venueId=8337",
       },
     ],
   },
   {
-    id: "boys-like-girls-detroit",
-    name: "BOYS LIKE GIRLS - The Soundtrack Of Your Life Tour",
+    id: "eric-church-charlotte",
+    name: "Eric Church: Free The Machine Tour",
     type: "Concert",
-    city: "Detroit, MI",
-    venue: "The Fillmore Detroit",
+    city: "Charlotte, NC",
+    venue: "Spectrum Center",
     timeZone: "ET",
-    coordinates: { lat: 42.3388, lng: -83.0518 },
-    startTime: "6:00 PM ET",
-    capacity: "Verified Monday, April 6, 2026",
+    coordinates: { lat: 35.2251, lng: -80.8392 },
+    startTime: "7:30 PM ET",
+    capacity: "Verified Saturday, April 4, 2026",
     verifiedDate: VERIFIED_DATE,
     security: {
       status: "Venue policy in effect",
-      summary: "The Fillmore Detroit is using bag checks, mobile-only tickets, and a no re-entry rule for Monday, April 6, 2026.",
+      summary: "Spectrum Center uses a no-bag policy for concerts like Eric Church, with only very small wallet exceptions.",
     },
-    nearbyOptions: {
-      parking: [
-        "Fox Theatre parking structures on Montcalm Street",
-        "The Fillmore Detroit surface lots nearby on Woodward",
-        "Opera House and Grand Circus Park garages",
-      ],
-      transit: [
-        "Grand Circus Park station on the QLINE",
-        "Broadway and Grand River bus stops",
-        "People Mover access from nearby downtown stations",
-      ],
-    },
-    accessibility: [
-      "wheelchair",
-      "accessible seating",
-      "assistive listening",
-      "elevator access",
-    ],
     venueInfo: [
       {
         label: "Bag policy",
-        title: "12 x 6 x 12 bag limit",
-        copy: 'Bags up to 12" x 6" x 12" are allowed. All bags are searched before entry, and non-clear bags receive additional screening.',
-        url: "https://www.thefillmoredetroit.com/visit",
+        title: "No bag policy",
+        copy: 'Most concert events use a no-bag policy, with exceptions for small wallets up to 4" x 6" x 1.5", plus diaper and medical bags.',
+        url: "https://www.spectrumcentercharlotte.com/plan-your-visit/a-z-guide",
       },
       {
-        label: "Bottle policy",
+        label: "Food and drinks",
         title: "No outside food or drink",
-        copy: "Outside food or drink is prohibited, and unsealed liquids are listed among the venue's prohibited items.",
-        url: "https://www.thefillmoredetroit.com/visit",
-      },
-      {
-        label: "Entry restrictions",
-        title: "Mobile entry and no re-entry",
-        copy: "All events use mobile entry, tickets are not available for print, and guests who leave cannot re-enter without a new ticket.",
-        url: "https://www.thefillmoredetroit.com/visit",
+        copy: "Outside food, beverages, bottles, cans, and coolers are not allowed inside Spectrum Center.",
+        url: "https://www.spectrumcentercharlotte.com/plan-your-visit/a-z-guide",
       },
       {
         label: "Verification",
         title: "Tonight's event",
-        copy: "BOYS LIKE GIRLS is listed at The Fillmore Detroit for Monday, April 6, 2026 at 6:00 PM. Important info notes doors at 6:00 PM and show at 7:00 PM.",
-        url: "https://www.ticketmaster.com/boys-like-girls-the-soundtrack-of-detroit-michigan-04-06-2026/event/08006356ADA62DDF",
+        copy: "Eric Church is listed at Spectrum Center for Saturday, April 4, 2026 at 7:30 PM.",
+        url: "https://www.ticketmaster.com/eric-church-tickets/artist/1020885?page=277",
       },
     ],
   },
   {
-    id: "don-bloom-phoenix",
-    name: "DON BLOOM",
+    id: "journey-wichita",
+    name: "Journey",
     type: "Concert",
-    city: "Phoenix, AZ",
-    venue: "The Rebel Lounge",
-    timeZone: "MT",
-    coordinates: { lat: 33.4954, lng: -112.0327 },
-    startTime: "8:00 PM MT",
-    capacity: "Verified Monday, April 6, 2026",
+    city: "Wichita, KS",
+    venue: "INTRUST Bank Arena",
+    timeZone: "CT",
+    coordinates: { lat: 37.6842, lng: -97.3375 },
+    startTime: "7:30 PM CT",
+    capacity: "Verified Saturday, April 4, 2026",
     verifiedDate: VERIFIED_DATE,
     security: {
       status: "Venue policy in effect",
-      summary: "The Rebel Lounge is enforcing bag searches, no outside food or beverages, and 21+ ID checks for Monday, April 6, 2026.",
+      summary: "INTRUST Bank Arena uses a clear bag policy and screening at entry, so bringing only approved items will speed things up.",
     },
-    nearbyOptions: {
-      parking: [
-        "Venue lot along Indian School Road",
-        "Street parking in the immediate venue block",
-        "Overflow neighborhood parking north of the venue",
-      ],
-      transit: [
-        "Valley Metro Route 41 stop on Indian School Road",
-        "Valley Metro Route 3 stop on 24th Street",
-        "Rideshare drop-off directly in front of the venue",
-      ],
-    },
-    accessibility: [
-      "wheelchair",
-      "accessible entry",
-      "all-gender restroom",
-    ],
     venueInfo: [
       {
         label: "Bag policy",
-        title: "No backpacks",
-        copy: "The Rebel Lounge does not allow backpacks, does not publish a strict size limit for smaller bags, and searches bags at entry.",
-        url: "https://therebellounge.com/faq/",
+        title: "Clear bag entry",
+        copy: 'Permitted bags include clear bags up to 14" x 6" x 14", one-gallon clear bags, or a small clutch up to 5.5" x 8.5".',
+        url: "https://www.intrustbankarena.com/harlem",
       },
       {
-        label: "Bottle policy",
-        title: "No outside food or beverages",
-        copy: "Outside food and beverages are not permitted at The Rebel Lounge.",
-        url: "https://therebellounge.com/faq/",
-      },
-      {
-        label: "Entry restrictions",
-        title: "21+ with limited re-entry",
-        copy: "DON BLOOM is listed as a 21+ show. A valid non-expired government photo ID is required for 21+ entry, under-21 guests are not eligible for re-entry, and guests over 21 should not expect re-entry except when staff allows it.",
-        url: "https://therebellounge.com/faq/",
+        label: "Screening",
+        title: "Security checkpoint",
+        copy: "The arena notes that its clear bag policy is designed to speed up entry, improve security, and reduce touch points.",
+        url: "https://www.intrustbankarena.com/harlem",
       },
       {
         label: "Verification",
         title: "Tonight's event",
-        copy: "DON BLOOM is listed at The Rebel Lounge for Monday, April 6, 2026 with doors at 7:30 PM and show at 8:00 PM.",
-        url: "https://therebellounge.com/events/",
+        copy: "Journey is listed in Wichita at INTRUST Bank Arena for Saturday, April 4, 2026.",
+        url: "https://www.ticketmaster.com/journey-tickets/artist/735415",
       },
     ],
   },
   {
-    id: "eliza-mclamb-san-diego",
-    name: "Eliza McLamb - Good Story Tour",
+    id: "devo-reno",
+    name: "DEVO: Mutate Don't Stagnate",
     type: "Concert",
-    city: "San Diego, CA",
-    venue: "Voodoo Room at the House of Blues San Diego",
+    city: "Reno, NV",
+    venue: "Grand Theatre at Grand Sierra Resort",
     timeZone: "PT",
-    coordinates: { lat: 32.7137, lng: -117.1591 },
-    startTime: "7:00 PM PT",
-    capacity: "Verified Monday, April 6, 2026",
-    verifiedDate: VERIFIED_DATE,
-    security: {
-      status: "Venue policy in effect",
-      summary: "House of Blues San Diego is enforcing a clear-bag rule, no outside drinks, and no re-entry for Monday, April 6, 2026.",
-    },
-    nearbyOptions: {
-      parking: [
-        "Park It On Market garage nearby",
-        "6th & K Parkade in East Village",
-        "Tailgate Park lots within walking distance",
-      ],
-      transit: [
-        "Gaslamp Quarter trolley station",
-        "Convention Center trolley station",
-        "MTS bus stops along 5th Avenue and Market Street",
-      ],
-    },
-    accessibility: [
-      "wheelchair",
-      "accessible restroom",
-      "assistive listening",
-      "elevator access",
-    ],
-    venueInfo: [
-      {
-        label: "Bag policy",
-        title: "Clear bags or small clutch only",
-        copy: 'Clear plastic, vinyl, or PVC totes up to 12" x 6" x 12" are allowed, along with small clutches up to 4.5" x 6.5". All bags are searched before entry.',
-        url: "https://sandiego.houseofblues.com/faq",
-      },
-      {
-        label: "Bottle policy",
-        title: "No outside food or beverage",
-        copy: "Outside food and beverages are prohibited at the venue.",
-        url: "https://sandiego.houseofblues.com/faq",
-      },
-      {
-        label: "Entry restrictions",
-        title: "No re-entry after entry",
-        copy: "The venue does not allow re-entry once guests enter, and the Ticketmaster listing notes the show is all ages with under-18 guests needing an accompanying adult age 25 or older.",
-        url: "https://sandiego.houseofblues.com/faq",
-      },
-      {
-        label: "Verification",
-        title: "Tonight's event",
-        copy: "Eliza McLamb is listed at the Voodoo Room for Monday, April 6, 2026 at 7:00 PM.",
-        url: "https://www.ticketmaster.com/eliza-mclamb-good-story-tour-san-diego-california-04-06-2026/event/0A006307A0DA6288",
-      },
-    ],
-  },
-  {
-    id: "sticky-fingers-san-francisco",
-    name: "Sticky Fingers - Live in North America",
-    type: "Concert",
-    city: "San Francisco, CA",
-    venue: "The Masonic",
-    timeZone: "PT",
-    coordinates: { lat: 37.7923, lng: -122.4147 },
+    coordinates: { lat: 39.5226, lng: -119.7765 },
     startTime: "8:00 PM PT",
-    capacity: "Verified Monday, April 6, 2026",
+    capacity: "Verified Saturday, April 4, 2026",
     verifiedDate: VERIFIED_DATE,
     security: {
       status: "Venue policy in effect",
-      summary: "The Masonic is enforcing bag checks, mobile entry, and no re-entry for Monday, April 6, 2026.",
+      summary: "Grand Sierra Resort requires mobile tickets from the original source and checks venue policy at the theatre entrance.",
     },
-    nearbyOptions: {
-      parking: [
-        "California Street Masonic garage options nearby",
-        "Portsmouth Square and North Beach garages",
-        "Street parking around Nob Hill if available",
-      ],
-      transit: [
-        "California cable car line stop near Taylor Street",
-        "Muni Route 1 California bus stops",
-        "Powell Street BART/Muni connection with uphill rideshare transfer",
-      ],
-    },
-    accessibility: [
-      "wheelchair",
-      "accessible seating",
-      "assistive listening",
-      "elevator access",
-    ],
     venueInfo: [
       {
-        label: "Bag policy",
-        title: "12 x 6 x 12 bag limit",
-        copy: 'Bags must not exceed 12" x 6" x 12". All bags are subject to inspection, and the venue recommends leaving bags at home for faster entry.',
-        url: "https://www.sfmasonic.com/faq",
+        label: "Tickets",
+        title: "Mobile tickets required",
+        copy: "Screenshots, photos, or printed email copies are not accepted. Tickets must be shown from the original mobile source.",
+        url: "https://www.grandsierraresort.com/tickets/",
       },
       {
-        label: "Bottle policy",
-        title: "One sealed water bottle allowed",
-        copy: "Outside food and drink are not allowed, but guests may bring one factory-sealed bottle of water. Camelbacks and hard-sided containers are not permitted.",
-        url: "https://www.sfmasonic.com/faq",
-      },
-      {
-        label: "Entry restrictions",
-        title: "Mobile entry and no re-entry",
-        copy: "The Masonic uses mobile entry, and re-entry is not permitted once you leave the building.",
-        url: "https://www.sfmasonic.com/faq",
+        label: "Venue rules",
+        title: "Check theatre policy before entry",
+        copy: "Grand Sierra Resort directs guests to review event restrictions in advance and arrive with valid mobile tickets for theatre access.",
+        url: "https://www.grandsierraresort.com/tickets/",
       },
       {
         label: "Verification",
         title: "Tonight's event",
-        copy: "Sticky Fingers is listed at The Masonic for Monday, April 6, 2026 at 8:00 PM with doors at 7:00 PM.",
-        url: "https://www.livenation.com/event/G5vYZbVSJPtsw/sticky-fingers-live-in-north-america",
+        copy: "DEVO is listed at the Grand Theatre for Saturday, April 4, 2026 at 8:00 PM.",
+        url: "https://www.ticketmaster.com/devo-tickets/artist/869383",
       },
     ],
   },
@@ -363,22 +243,14 @@ function formatVerifiedDate(dateString) {
   }).format(date);
 }
 
-function getLocalDateString() {
-  const now = new Date();
-  return new Date(now.getFullYear(), now.getMonth(), now.getDate())
-    .toISOString()
-    .split("T")[0];
-}
-
-function getRequestedDate() {
-  return selectedDate || getLocalDateString();
-}
-
 function getCoverageMessage() {
-  const label = formatVerifiedDate(verifiedDate || getRequestedDate());
-
   if (!verifiedDate || !todayEvents.length) {
-    return `No U.S. events are currently loaded for ${label}.`;
+    return "Coverage is ready for the next verified refresh.";
+  }
+
+  const label = formatVerifiedDate(verifiedDate);
+  if (verifiedDate !== CURRENT_BROWSER_DATE) {
+    return `Showing ${todayEvents.length} U.S. events verified for ${label}. Daily refresh is still pending for the current browser date.`;
   }
 
   return `Showing ${todayEvents.length} U.S. events verified for ${label}.`;
@@ -395,13 +267,9 @@ function applyEventsPayload(payload, useFallback = false) {
   selectedEventId = todayEvents[0]?.id || "";
 }
 
-async function loadEventsData(dateString = getRequestedDate()) {
-  selectedDate = dateString;
-
+async function loadEventsData() {
   try {
-    const url = new URL(EVENTS_API_URL, window.location.origin);
-    url.searchParams.set("date", dateString);
-    const response = await fetch(url, {
+    const response = await fetch(EVENTS_API_URL, {
       headers: {
         Accept: "application/json",
       },
@@ -415,22 +283,13 @@ async function loadEventsData(dateString = getRequestedDate()) {
     applyEventsPayload(payload);
   } catch (error) {
     console.error("Falling back to bundled event data.", error);
-    const shouldUseFallback = dateString === VERIFIED_DATE;
     applyEventsPayload(
       {
-        verifiedDate: dateString,
-        events: shouldUseFallback ? fallbackEvents : [],
+        verifiedDate: VERIFIED_DATE,
+        events: fallbackEvents,
       },
-      shouldUseFallback
+      true
     );
-  }
-}
-
-function syncDateInput() {
-  const today = getLocalDateString();
-  eventDateInput.min = today;
-  if (!eventDateInput.value || eventDateInput.value < today) {
-    eventDateInput.value = selectedDate >= today ? selectedDate : today;
   }
 }
 
@@ -1011,79 +870,6 @@ function makeVenueMarkup(items) {
     .join("");
 }
 
-function getAccessibilityIcon(feature) {
-  const icons = {
-    wheelchair: "♿",
-    "accessible parking": "P",
-    "accessible seating": "A",
-    "accessible entry": "↪",
-    "accessible restroom": "WC",
-    "assistive listening": "🔊",
-    elevators: "⬍",
-    "elevator access": "⬍",
-    "quiet zone": "◌",
-    "all-gender restroom": "◎",
-  };
-
-  return icons[feature] || "•";
-}
-
-function makeNearbyMarkup(nearbyOptions = {}) {
-  const parking = Array.isArray(nearbyOptions.parking) ? nearbyOptions.parking : [];
-  const transit = Array.isArray(nearbyOptions.transit) ? nearbyOptions.transit : [];
-
-  if (!parking.length && !transit.length) {
-    return "";
-  }
-
-  const renderList = (items, icon) =>
-    items
-      .map((item) => `<li><span class="nearby-bullet">${icon}</span><span>${item}</span></li>`)
-      .join("");
-
-  return `
-    <div class="venue-item pulse-in">
-      <p class="list-label">Nearby Options</p>
-      <p class="venue-rule-title">Parking and Transit</p>
-      <div class="nearby-grid">
-        <div>
-          <p class="nearby-title">Closest parking lots</p>
-          <ul class="nearby-list">${renderList(parking, "🚗")}</ul>
-        </div>
-        <div>
-          <p class="nearby-title">Transit stops</p>
-          <ul class="nearby-list">${renderList(transit, "🚎")}</ul>
-        </div>
-      </div>
-    </div>
-  `;
-}
-
-function makeAccessibilityMarkup(features = []) {
-  if (!Array.isArray(features) || !features.length) {
-    return "";
-  }
-
-  return `
-    <div class="venue-item pulse-in">
-      <p class="list-label">Accessibility</p>
-      <p class="venue-rule-title">Accessibility Features</p>
-      <div class="accessibility-tags">
-        ${features
-          .map(
-            (feature) => `
-              <span class="accessibility-tag">
-                <span class="accessibility-icon" aria-hidden="true">${getAccessibilityIcon(feature)}</span>
-                <span>${feature}</span>
-              </span>
-            `
-          )
-          .join("")}
-      </div>
-    </div>
-  `;
-}
-
 function renderEvent(id) {
   const event = getEventData(id);
 
@@ -1133,11 +919,7 @@ function renderEvent(id) {
   selectedTravelMode = getRecommendedMode(event, getTrafficState(event)).mode;
   nodes.arrivalStrategy.innerHTML = "";
   nodes.gettingThere.innerHTML = "";
-  nodes.venueInfo.innerHTML = [
-    makeVenueMarkup(event.venueInfo),
-    makeNearbyMarkup(event.nearbyOptions),
-    makeAccessibilityMarkup(event.accessibility),
-  ].join("");
+  nodes.venueInfo.innerHTML = makeVenueMarkup(event.venueInfo);
   coverageNote.textContent = getCoverageMessage();
   ensureMap();
   updateDirectionsLink(event);
@@ -1170,24 +952,10 @@ travelModeToggle.addEventListener("click", (event) => {
 });
 
 async function initializeApp() {
-  selectedDate = getLocalDateString();
-  syncDateInput();
-  await loadEventsData(selectedDate);
+  await loadEventsData();
   populateEvents();
   eventSelect.value = selectedEventId;
   renderEvent(selectedEventId);
 }
-
-eventDateInput.addEventListener("change", async (event) => {
-  const today = getLocalDateString();
-  const nextDate =
-    event.target.value && event.target.value >= today ? event.target.value : today;
-  event.target.value = nextDate;
-  selectedDate = nextDate;
-  await loadEventsData(nextDate);
-  populateEvents();
-  eventSelect.value = selectedEventId;
-  renderEvent(selectedEventId);
-});
 
 initializeApp();
