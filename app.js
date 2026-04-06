@@ -39,113 +39,113 @@ const ARRIVAL_ZONE_SOURCE = "arrival-zones";
 const ARRIVAL_ZONE_FILL_LAYER = "arrival-zones-fill";
 const ARRIVAL_ZONE_LINE_LAYER = "arrival-zones-line";
 
-const VERIFIED_DATE = "2026-04-05";
+const VERIFIED_DATE = "2026-04-06";
 let verifiedDate = null;
 const fallbackEvents = [
   {
-    id: "verka-serduchka-los-angeles",
-    name: "Verka Serduchka",
+    id: "twice-chicago-night-1",
+    name: "TWICE [THIS IS FOR] WORLD TOUR IN CHICAGO",
     type: "Concert",
-    city: "Los Angeles, CA",
-    venue: "The Wiltern",
-    timeZone: "PT",
-    coordinates: { lat: 34.0611, lng: -118.3085 },
-    startTime: "7:00 PM PT",
-    capacity: "Verified Sunday, April 5, 2026",
+    city: "Chicago, IL",
+    venue: "United Center",
+    timeZone: "CT",
+    coordinates: { lat: 41.8807, lng: -87.6742 },
+    startTime: "8:00 PM CT",
+    capacity: "Verified Monday, April 6, 2026",
     verifiedDate: VERIFIED_DATE,
     security: {
       status: "Venue policy in effect",
-      summary: "The Wiltern is using bag checks, mobile-only ticketing, and a no re-entry rule for Sunday, April 5, 2026.",
+      summary: "United Center is using a small-bag rule, no outside food or beverages, and metal-detector entry screening for Monday, April 6, 2026.",
+    },
+    venueInfo: [
+      {
+        label: "Bag policy",
+        title: "Small bags only",
+        copy: 'Guests may bring a small purse or personal bag up to 10" x 6" x 2". Backpacks and larger bags are not allowed, except approved medical bags.',
+        url: "https://www.unitedcenter.com/venue/frequently-asked-questions/",
+      },
+      {
+        label: "Bottle policy",
+        title: "No outside food or bottles",
+        copy: "Outside food or beverages are not permitted inside the arena, and bottles or cans are listed among prohibited items.",
+        url: "https://www.unitedcenter.com/venue/frequently-asked-questions/",
+      },
+      {
+        label: "Entry restrictions",
+        title: "Mobile ticketing and screened entry",
+        copy: "United Center uses fully digital tickets, screenshots and print-at-home tickets are not valid, and all guests pass through visual inspection, bag check, and metal detection with no re-entry during the event.",
+        url: "https://www.unitedcenter.com/venue/mobile-ticketing-guide/",
+      },
+      {
+        label: "Verification",
+        title: "Tonight's event",
+        copy: "TWICE is listed at United Center for Monday, April 6, 2026 at 8:00 PM, with gates opening at 6:30 PM.",
+        url: "https://www.unitedcenter.com/events/2026/04/06/twice-this-is-for-world-tour/",
+      },
+    ],
+  },
+  {
+    id: "boys-like-girls-detroit",
+    name: "BOYS LIKE GIRLS - The Soundtrack Of Your Life Tour",
+    type: "Concert",
+    city: "Detroit, MI",
+    venue: "The Fillmore Detroit",
+    timeZone: "ET",
+    coordinates: { lat: 42.3388, lng: -83.0518 },
+    startTime: "7:00 PM ET",
+    capacity: "Verified Monday, April 6, 2026",
+    verifiedDate: VERIFIED_DATE,
+    security: {
+      status: "Venue policy in effect",
+      summary: "The Fillmore Detroit is using bag checks, mobile-only tickets, and a no re-entry rule for Monday, April 6, 2026.",
     },
     venueInfo: [
       {
         label: "Bag policy",
         title: "12 x 6 x 12 bag limit",
-        copy: 'Bags up to 12" x 6" x 12" are allowed, all bags are searched, and non-clear bags receive additional screening.',
-        url: "https://www.wiltern.com/visit",
+        copy: 'Bags up to 12" x 6" x 12" are allowed. All bags are searched before entry, and non-clear bags receive additional screening.',
+        url: "https://www.thefillmoredetroit.com/visit",
       },
       {
         label: "Bottle policy",
-        title: "Empty plastic bottles only",
-        copy: "Outside food and beverages are prohibited, but guests may bring one empty plastic water bottle to refill inside. Metal or glass containers are not allowed.",
-        url: "https://www.wiltern.com/visit",
+        title: "No outside food or drink",
+        copy: "Outside food or drink is prohibited, and unsealed liquids are listed among the venue's prohibited items.",
+        url: "https://www.thefillmoredetroit.com/visit",
       },
       {
         label: "Entry restrictions",
         title: "Mobile entry and no re-entry",
-        copy: "Tickets are mobile entry only, printed tickets are not available, and there is no re-entry once a ticket has been scanned.",
-        url: "https://www.wiltern.com/visit",
+        copy: "All events use mobile entry, tickets are not available for print, and guests who leave cannot re-enter without a new ticket.",
+        url: "https://www.thefillmoredetroit.com/visit",
       },
       {
         label: "Verification",
         title: "Tonight's event",
-        copy: "Verka Serduchka is listed at The Wiltern for Sunday, April 5, 2026 at 7:00 PM.",
-        url: "https://www.livenation.com/artist/K8vZ9172e_f/verka-serduchka-events",
+        copy: "BOYS LIKE GIRLS is listed at The Fillmore Detroit for Monday, April 6, 2026 with doors at 6:00 PM and show at 7:00 PM.",
+        url: "https://www.ticketmaster.com/boys-like-girls-the-soundtrack-of-detroit-michigan-04-06-2026/event/08006356ADA62DDF",
       },
     ],
   },
   {
-    id: "the-devil-wears-prada-raleigh",
-    name: "THE DEVIL WEARS PRADA: FLOWERS TOUR",
-    type: "Concert",
-    city: "Raleigh, NC",
-    venue: "The Ritz",
-    timeZone: "ET",
-    coordinates: { lat: 35.8055, lng: -78.6197 },
-    startTime: "7:00 PM ET",
-    capacity: "Verified Sunday, April 5, 2026",
-    verifiedDate: VERIFIED_DATE,
-    security: {
-      status: "Venue policy in effect",
-      summary: "The Ritz is using bag checks, mobile-only tickets, and a no re-entry rule for Sunday, April 5, 2026.",
-    },
-    venueInfo: [
-      {
-        label: "Bag policy",
-        title: "12 x 6 x 12 bag limit",
-        copy: 'Bags up to 12" x 6" x 12" are allowed, all bags are searched, and non-clear bags may get additional screening.',
-        url: "https://www.ritzraleigh.com/visit",
-      },
-      {
-        label: "Bottle policy",
-        title: "No outside drinks or bottles",
-        copy: "Outside food or drinks, including empty water bottles, are not permitted. Free filtered water is available inside the venue.",
-        url: "https://www.ritzraleigh.com/visit",
-      },
-      {
-        label: "Entry restrictions",
-        title: "Mobile entry and no in-and-out",
-        copy: "Tickets are mobile entry only, guests should be prepared to show ID if ticket help is needed, and re-entry is not permitted after entry.",
-        url: "https://www.ritzraleigh.com/visit",
-      },
-      {
-        label: "Verification",
-        title: "Tonight's event",
-        copy: "THE DEVIL WEARS PRADA: FLOWERS TOUR is listed at The Ritz for Sunday, April 5, 2026 with doors at 6:00 PM and show at 7:00 PM.",
-        url: "https://www.ticketmaster.com/the-devil-wears-prada-flowers-tour-raleigh-north-carolina-04-05-2026/event/2D00636CE2099205",
-      },
-    ],
-  },
-  {
-    id: "femtanyl-phoenix",
-    name: "femtanyl",
+    id: "don-bloom-phoenix",
+    name: "DON BLOOM",
     type: "Concert",
     city: "Phoenix, AZ",
     venue: "The Rebel Lounge",
     timeZone: "MT",
     coordinates: { lat: 33.4954, lng: -112.0327 },
     startTime: "8:00 PM MT",
-    capacity: "Verified Sunday, April 5, 2026",
+    capacity: "Verified Monday, April 6, 2026",
     verifiedDate: VERIFIED_DATE,
     security: {
       status: "Venue policy in effect",
-      summary: "The Rebel Lounge is enforcing bag searches, all-ages entry rules, and limited re-entry for Sunday, April 5, 2026.",
+      summary: "The Rebel Lounge is enforcing bag searches, no outside food or beverages, and 21+ ID checks for Monday, April 6, 2026.",
     },
     venueInfo: [
       {
         label: "Bag policy",
         title: "No backpacks",
-        copy: "Backpacks are not allowed. Smaller bags are permitted, but they will be searched at the door.",
+        copy: "The Rebel Lounge does not allow backpacks, does not publish a strict size limit for smaller bags, and searches bags at entry.",
         url: "https://therebellounge.com/faq/",
       },
       {
@@ -156,99 +156,99 @@ const fallbackEvents = [
       },
       {
         label: "Entry restrictions",
-        title: "All ages with limited re-entry",
-        copy: "The April 5 femtanyl show is listed as all ages. Guests under 21 do not get re-entry, and guests over 21 should not expect in-and-out privileges.",
+        title: "21+ with limited re-entry",
+        copy: "DON BLOOM is listed as a 21+ show. A valid non-expired government photo ID is required for 21+ entry, under-21 guests are not eligible for re-entry, and guests over 21 should not expect re-entry except when staff allows it.",
         url: "https://therebellounge.com/faq/",
       },
       {
         label: "Verification",
         title: "Tonight's event",
-        copy: "femtanyl is listed at The Rebel Lounge for Sunday, April 5, 2026 with doors at 7:00 PM and show at 8:00 PM.",
+        copy: "DON BLOOM is listed at The Rebel Lounge for Monday, April 6, 2026 with doors at 7:30 PM and show at 8:00 PM.",
         url: "https://therebellounge.com/events/",
       },
     ],
   },
   {
-    id: "odumodublvck-silver-spring",
-    name: "ODUMODUBLVCK - THE INDUSTRY MACHINE TOUR",
+    id: "eliza-mclamb-san-diego",
+    name: "Eliza McLamb - Good Story Tour",
     type: "Concert",
-    city: "Silver Spring, MD",
-    venue: "The Fillmore Silver Spring",
-    timeZone: "ET",
-    coordinates: { lat: 38.9977, lng: -77.0261 },
-    startTime: "8:00 PM ET",
-    capacity: "Verified Sunday, April 5, 2026",
+    city: "San Diego, CA",
+    venue: "Voodoo Room at the House of Blues San Diego",
+    timeZone: "PT",
+    coordinates: { lat: 32.7137, lng: -117.1591 },
+    startTime: "8:00 PM PT",
+    capacity: "Verified Monday, April 6, 2026",
     verifiedDate: VERIFIED_DATE,
     security: {
       status: "Venue policy in effect",
-      summary: "The Fillmore Silver Spring is enforcing bag checks, mobile-only entry, and no re-entry for Sunday, April 5, 2026.",
+      summary: "House of Blues San Diego is enforcing a clear-bag rule, no outside drinks, and no re-entry for Monday, April 6, 2026.",
     },
     venueInfo: [
       {
         label: "Bag policy",
-        title: "Small bags only",
-        copy: 'Bags up to 12" x 6" x 12" are allowed. All bags are searched, non-clear bags get additional screening, and backpacks are not allowed.',
-        url: "https://www.fillmoresilverspring.com/visit",
+        title: "Clear bags or small clutch only",
+        copy: 'Clear plastic, vinyl, or PVC totes up to 12" x 6" x 12" are allowed, along with small clutches up to 4.5" x 6.5". All bags are searched before entry.',
+        url: "https://sandiego.houseofblues.com/faq",
       },
       {
         label: "Bottle policy",
-        title: "No outside bottles or drinks",
-        copy: "Outside food, drinks, snacks, and candy are prohibited. Bottles, camelbacks, hydroflasks, cups, and cans are also not allowed inside.",
-        url: "https://www.fillmoresilverspring.com/visit",
+        title: "No outside food or beverage",
+        copy: "Outside food and beverages are prohibited at the venue.",
+        url: "https://sandiego.houseofblues.com/faq",
       },
       {
         label: "Entry restrictions",
-        title: "Mobile entry and no re-entry",
-        copy: "Tickets are mobile entry only, most shows are all ages unless the calendar says otherwise, and guests who leave cannot re-enter without a new ticket.",
-        url: "https://www.fillmoresilverspring.com/visit",
+        title: "No re-entry after entry",
+        copy: "The venue does not allow re-entry once guests enter, and the Ticketmaster listing notes the show is all ages with under-18 guests needing an accompanying adult age 25 or older.",
+        url: "https://sandiego.houseofblues.com/faq",
       },
       {
         label: "Verification",
         title: "Tonight's event",
-        copy: "ODUMODUBLVCK - THE INDUSTRY MACHINE TOUR is listed at The Fillmore Silver Spring for Sunday, April 5, 2026.",
-        url: "https://www.livenation.com/event/1avfZ_dbIj-Zd21a/odumodublvck-the-industry-machine-tour",
+        copy: "Eliza McLamb is listed at the Voodoo Room for Monday, April 6, 2026 with doors at 7:00 PM and show at 8:00 PM.",
+        url: "https://www.ticketmaster.com/eliza-mclamb-good-story-tour-san-diego-california-04-06-2026/event/0A006307A0DA6288",
       },
     ],
   },
   {
-    id: "satchvai-band-reno",
-    name: "SatchVai Band: Animals as Leaders",
+    id: "sticky-fingers-san-francisco",
+    name: "Sticky Fingers - Live in North America",
     type: "Concert",
-    city: "Reno, NV",
-    venue: "Grand Theatre at Grand Sierra Resort",
+    city: "San Francisco, CA",
+    venue: "The Masonic",
     timeZone: "PT",
-    coordinates: { lat: 39.5226, lng: -119.7765 },
-    startTime: "7:30 PM PT",
-    capacity: "Verified Sunday, April 5, 2026",
+    coordinates: { lat: 37.7923, lng: -122.4147 },
+    startTime: "8:00 PM PT",
+    capacity: "Verified Monday, April 6, 2026",
     verifiedDate: VERIFIED_DATE,
     security: {
       status: "Venue policy in effect",
-      summary: "Grand Sierra Resort is enforcing bag limits, no outside drinks, and ticket checks for Sunday, April 5, 2026.",
+      summary: "The Masonic is enforcing bag checks, mobile entry, and no re-entry for Monday, April 6, 2026.",
     },
     venueInfo: [
       {
         label: "Bag policy",
-        title: "Limited bag entry",
-        copy: "Backpacks, coolers, and briefcases are prohibited. Medical and diaper bags are allowed, and all permitted bags are subject to search.",
-        url: "https://www.grandsierraresort.com/entertainment/venue-policies",
+        title: "12 x 6 x 12 bag limit",
+        copy: 'Bags must not exceed 12" x 6" x 12". All bags are subject to inspection, and the venue recommends leaving bags at home for faster entry.',
+        url: "https://www.sfmasonic.com/visit?linkId=100000356286802",
       },
       {
         label: "Bottle policy",
-        title: "No outside food or drinks",
-        copy: "Outside food and beverages are not allowed inside Grand Sierra Resort entertainment venues.",
-        url: "https://www.grandsierraresort.com/entertainment/venue-policies",
+        title: "One sealed water bottle allowed",
+        copy: "Outside food and drink are not allowed, but guests may bring one factory-sealed bottle of water. Camelbacks and hard-sided containers are not permitted.",
+        url: "https://www.sfmasonic.com/faq",
       },
       {
         label: "Entry restrictions",
-        title: "Original mobile ticket required",
-        copy: "Screenshots, photos, and printed email copies are not accepted. Tickets must be shown from the original mobile source to enter the Grand Theatre.",
-        url: "https://www.grandsierraresort.com/tickets/",
+        title: "Mobile entry and no re-entry",
+        copy: "The Masonic uses mobile entry, and re-entry is not permitted once you leave the building.",
+        url: "https://www.sfmasonic.com/visit?linkId=100000356286802",
       },
       {
         label: "Verification",
         title: "Tonight's event",
-        copy: "SatchVai Band: Animals as Leaders is listed at Grand Sierra Resort for Sunday, April 5, 2026 at 7:30 PM with doors at 6:30 PM.",
-        url: "https://www.grandsierraresort.com/entertainment/concerts-and-shows/satchvai-band",
+        copy: "Sticky Fingers is listed at The Masonic for Monday, April 6, 2026 at 8:00 PM with doors at 7:00 PM.",
+        url: "https://www.livenation.com/event/G5vYZbVSJPtsw/sticky-fingers-live-in-north-america",
       },
     ],
   },
@@ -304,7 +304,7 @@ function applyEventsPayload(payload, useFallback = false) {
 
 async function loadEventsData() {
   try {
-    const response = await fetch("/api/events/today");
+    const response = await fetch("https://zmegfwpueygurhnpmycr.supabase.co/storage/v1/object/public/events/refresh-today-events.swift");
     if (!response.ok) {
       throw new Error(`Events feed returned ${response.status}`);
     }
@@ -322,6 +322,30 @@ async function loadEventsData() {
     );
   }
 }
+// existing loadEvents function
+async function loadEvents() {
+  const res = await fetch("https://zmegfwpueygurhnpmycr.supabase.co/storage/v1/object/public/events/today-events.json");
+  const events = await res.json();
+
+  const container = document.getElementById("events-container");
+  container.innerHTML = events.map(e => `<div>${e.title}</div>`).join("");
+}
+
+// call it initially
+loadEvents();
+
+// --- Auto-refresh at midnight CT ---
+function refreshAtMidnightCT() {
+  const now = new Date();
+  const ctOffset = -5; // CDT UTC-5
+  const hoursCT = (now.getUTCHours() + ctOffset + 24) % 24;
+  const msUntilMidnight =
+    ((24 - hoursCT) * 3600 - now.getUTCMinutes() * 60 - now.getUTCSeconds()) * 1000 - now.getUTCMilliseconds();
+
+  setTimeout(() => location.reload(), msUntilMidnight);
+}
+
+refreshAtMidnightCT();
 function populateEvents() {
   eventSelect.innerHTML = "";
   eventSelect.disabled = false;
