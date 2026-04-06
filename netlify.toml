@@ -6,19 +6,3 @@
   from = "/api/events/today"
   to = "/.netlify/functions/events-today"
   status = 200
-
-[[headers]]
-  for = "/*.js"
-  [headers.values]
-    Cache-Control = "public, max-age=3600"
-
-[[headers]]
-  for = "/*.css"
-  [headers.values]
-    Cache-Control = "public, max-age=3600"
-    
-[functions]
-  directory = "netlify/functions"
-
-[functions."refresh-events"]
-  schedule = "0 5 * * *"

@@ -14,8 +14,26 @@
       "verifiedDate": "2026-04-06",
       "security": {
         "status": "Venue policy in effect",
-        "summary": "United Center is using a small-bag rule, no outside bottles, and mobile ticket entry for Monday, April 6, 2026."
+        "summary": "United Center is using a small-bag rule, no outside food or beverages, and metal-detector entry screening for Monday, April 6, 2026."
       },
+      "nearbyOptions": {
+        "parking": [
+          "Lot K on the east side of United Center",
+          "Lot H at 1851 W Madison Street",
+          "Lot C near Wood Street and Monroe Street"
+        ],
+        "transit": [
+          "CTA Ashland station (Green and Pink Lines)",
+          "CTA 19 Madison bus stop near the arena",
+          "CTA 20 Madison and 9 Ashland route connections"
+        ]
+      },
+      "accessibility": [
+        "wheelchair",
+        "accessible parking",
+        "assistive listening",
+        "elevators"
+      ],
       "venueInfo": [
         {
           "label": "Bag policy",
@@ -31,8 +49,8 @@
         },
         {
           "label": "Entry restrictions",
-          "title": "Mobile ticket required",
-          "copy": "United Center uses fully digital tickets. Print-at-home tickets and screenshots are not valid for entry, so guests should use the United Center or Ticketmaster app.",
+          "title": "Mobile ticketing and screened entry",
+          "copy": "United Center uses fully digital tickets, screenshots and print-at-home tickets are not valid, and all guests pass through visual inspection, bag check, and metal detection with no re-entry during the event.",
           "url": "https://www.unitedcenter.com/venue/mobile-ticketing-guide/"
         },
         {
@@ -51,13 +69,31 @@
       "venue": "The Fillmore Detroit",
       "timeZone": "ET",
       "coordinates": { "lat": 42.3388, "lng": -83.0518 },
-      "startTime": "7:00 PM ET",
+      "startTime": "6:00 PM ET",
       "capacity": "Verified Monday, April 6, 2026",
       "verifiedDate": "2026-04-06",
       "security": {
         "status": "Venue policy in effect",
         "summary": "The Fillmore Detroit is using bag checks, mobile-only tickets, and a no re-entry rule for Monday, April 6, 2026."
       },
+      "nearbyOptions": {
+        "parking": [
+          "Fox Theatre parking structures on Montcalm Street",
+          "The Fillmore Detroit surface lots nearby on Woodward",
+          "Opera House and Grand Circus Park garages"
+        ],
+        "transit": [
+          "Grand Circus Park station on the QLINE",
+          "Broadway and Grand River bus stops",
+          "People Mover access from nearby downtown stations"
+        ]
+      },
+      "accessibility": [
+        "wheelchair",
+        "accessible seating",
+        "assistive listening",
+        "elevator access"
+      ],
       "venueInfo": [
         {
           "label": "Bag policy",
@@ -80,7 +116,7 @@
         {
           "label": "Verification",
           "title": "Tonight's event",
-          "copy": "BOYS LIKE GIRLS is listed at The Fillmore Detroit for Monday, April 6, 2026 with doors at 6:00 PM and show at 7:00 PM.",
+          "copy": "BOYS LIKE GIRLS is listed at The Fillmore Detroit for Monday, April 6, 2026 at 6:00 PM. Important info notes doors at 6:00 PM and show at 7:00 PM.",
           "url": "https://www.ticketmaster.com/boys-like-girls-the-soundtrack-of-detroit-michigan-04-06-2026/event/08006356ADA62DDF"
         }
       ]
@@ -98,13 +134,30 @@
       "verifiedDate": "2026-04-06",
       "security": {
         "status": "Venue policy in effect",
-        "summary": "The Rebel Lounge is enforcing bag searches, no outside drinks, and 21+ entry rules for Monday, April 6, 2026."
+        "summary": "The Rebel Lounge is enforcing bag searches, no outside food or beverages, and 21+ ID checks for Monday, April 6, 2026."
       },
+      "nearbyOptions": {
+        "parking": [
+          "Venue lot along Indian School Road",
+          "Street parking in the immediate venue block",
+          "Overflow neighborhood parking north of the venue"
+        ],
+        "transit": [
+          "Valley Metro Route 41 stop on Indian School Road",
+          "Valley Metro Route 3 stop on 24th Street",
+          "Rideshare drop-off directly in front of the venue"
+        ]
+      },
+      "accessibility": [
+        "wheelchair",
+        "accessible entry",
+        "all-gender restroom"
+      ],
       "venueInfo": [
         {
           "label": "Bag policy",
           "title": "No backpacks",
-          "copy": "Backpacks are not allowed. Smaller bags are permitted, but they will be searched at the door.",
+          "copy": "The Rebel Lounge does not allow backpacks, does not publish a strict size limit for smaller bags, and searches bags at entry.",
           "url": "https://therebellounge.com/faq/"
         },
         {
@@ -116,14 +169,14 @@
         {
           "label": "Entry restrictions",
           "title": "21+ with limited re-entry",
-          "copy": "DON BLOOM is listed as a 21+ show. Guests need ID for 21+ entry, and the venue generally does not grant re-entry once you are inside.",
+          "copy": "DON BLOOM is listed as a 21+ show. A valid non-expired government photo ID is required for 21+ entry, under-21 guests are not eligible for re-entry, and guests over 21 should not expect re-entry except when staff allows it.",
           "url": "https://therebellounge.com/faq/"
         },
         {
           "label": "Verification",
           "title": "Tonight's event",
           "copy": "DON BLOOM is listed at The Rebel Lounge for Monday, April 6, 2026 with doors at 7:30 PM and show at 8:00 PM.",
-          "url": "https://therebellounge.com/"
+          "url": "https://therebellounge.com/events/"
         }
       ]
     },
@@ -135,13 +188,31 @@
       "venue": "Voodoo Room at the House of Blues San Diego",
       "timeZone": "PT",
       "coordinates": { "lat": 32.7137, "lng": -117.1591 },
-      "startTime": "8:00 PM PT",
+      "startTime": "7:00 PM PT",
       "capacity": "Verified Monday, April 6, 2026",
       "verifiedDate": "2026-04-06",
       "security": {
         "status": "Venue policy in effect",
         "summary": "House of Blues San Diego is enforcing a clear-bag rule, no outside drinks, and no re-entry for Monday, April 6, 2026."
       },
+      "nearbyOptions": {
+        "parking": [
+          "Park It On Market garage nearby",
+          "6th & K Parkade in East Village",
+          "Tailgate Park lots within walking distance"
+        ],
+        "transit": [
+          "Gaslamp Quarter trolley station",
+          "Convention Center trolley station",
+          "MTS bus stops along 5th Avenue and Market Street"
+        ]
+      },
+      "accessibility": [
+        "wheelchair",
+        "accessible restroom",
+        "assistive listening",
+        "elevator access"
+      ],
       "venueInfo": [
         {
           "label": "Bag policy",
@@ -164,7 +235,7 @@
         {
           "label": "Verification",
           "title": "Tonight's event",
-          "copy": "Eliza McLamb is listed at the Voodoo Room for Monday, April 6, 2026 with doors at 7:00 PM and show at 8:00 PM.",
+          "copy": "Eliza McLamb is listed at the Voodoo Room for Monday, April 6, 2026 at 7:00 PM.",
           "url": "https://www.ticketmaster.com/eliza-mclamb-good-story-tour-san-diego-california-04-06-2026/event/0A006307A0DA6288"
         }
       ]
@@ -184,6 +255,24 @@
         "status": "Venue policy in effect",
         "summary": "The Masonic is enforcing bag checks, mobile entry, and no re-entry for Monday, April 6, 2026."
       },
+      "nearbyOptions": {
+        "parking": [
+          "California Street Masonic garage options nearby",
+          "Portsmouth Square and North Beach garages",
+          "Street parking around Nob Hill if available"
+        ],
+        "transit": [
+          "California cable car line stop near Taylor Street",
+          "Muni Route 1 California bus stops",
+          "Powell Street BART/Muni connection with uphill rideshare transfer"
+        ]
+      },
+      "accessibility": [
+        "wheelchair",
+        "accessible seating",
+        "assistive listening",
+        "elevator access"
+      ],
       "venueInfo": [
         {
           "label": "Bag policy",

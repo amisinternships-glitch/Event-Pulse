@@ -22,18 +22,20 @@
         <div class="hero-copy">
           <p class="brand-title">Event Pulse</p>
           <p class="eyebrow">Live arrival guide for U.S. concerts and festivals</p>
-          <h1>Pick today&apos;s event and plan your arrival before you leave.</h1>
+          <h1>Pick an event date and plan your arrival before you leave.</h1>
           <p class="hero-text">
-            Use the dropdown to choose a concert or festival happening today, then review entry
-            conditions, arrival strategy, directions, rideshare options, and venue rules pulled
-            from official event and venue pages.
+            Choose a date, pick a concert or festival for that day, then review entry conditions,
+            arrival strategy, directions, rideshare options, and venue rules pulled from official
+            event and venue pages.
           </p>
           <div class="hero-note">
             <span class="status-dot"></span>
-            <span id="coverage-note">Coverage is currently limited to U.S. events verified for today.</span>
+            <span id="coverage-note">Coverage is currently limited to U.S. events verified for the selected date.</span>
           </div>
         </div>
         <section class="selector-panel">
+          <label for="event-date">Choose a date</label>
+          <input id="event-date" type="date" aria-label="Choose an event date" />
           <label for="event-select">Select your event</label>
           <select id="event-select" aria-label="Select an event"></select>
           <div class="selector-meta">
@@ -182,6 +184,6 @@
     </div>
 
     <script src="https://api.mapbox.com/mapbox-gl-js/v3.19.1/mapbox-gl.js"></script>
-    <script src="app.js"></script>
+    <script src="app.js?v=2026-04-06-1305"></script>
   </body>
 </html>

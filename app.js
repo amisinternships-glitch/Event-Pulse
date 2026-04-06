@@ -1,4 +1,5 @@
 const eventSelect = document.getElementById("event-select");
+const eventDateInput = document.getElementById("event-date");
 const lastUpdated = document.getElementById("last-updated");
 const coverageNote = document.getElementById("coverage-note");
 const directionsLink = document.getElementById("directions-link");
@@ -29,6 +30,7 @@ let venueMarker;
 let liveEstimateTimer;
 let selectedTravelMode = "drive";
 let mapIsLoaded = false;
+let selectedDate = VERIFIED_DATE;
 
 const MAPBOX_TOKEN =
   window.EVENT_PULSE_MAPBOX_TOKEN ||
@@ -40,6 +42,7 @@ const ARRIVAL_ZONE_FILL_LAYER = "arrival-zones-fill";
 const ARRIVAL_ZONE_LINE_LAYER = "arrival-zones-line";
 
 const VERIFIED_DATE = "2026-04-06";
+const EVENTS_API_URL = "/api/events/today";
 let verifiedDate = null;
 const fallbackEvents = [
   {
@@ -57,6 +60,24 @@ const fallbackEvents = [
       status: "Venue policy in effect",
       summary: "United Center is using a small-bag rule, no outside food or beverages, and metal-detector entry screening for Monday, April 6, 2026.",
     },
+    nearbyOptions: {
+      parking: [
+        "Lot K on the east side of United Center",
+        "Lot H at 1851 W Madison Street",
+        "Lot C near Wood Street and Monroe Street",
+      ],
+      transit: [
+        "CTA Ashland station (Green and Pink Lines)",
+        "CTA 19 Madison bus stop near the arena",
+        "CTA 20 Madison and 9 Ashland route connections",
+      ],
+    },
+    accessibility: [
+      "wheelchair",
+      "accessible parking",
+      "assistive listening",
+      "elevators",
+    ],
     venueInfo: [
       {
         label: "Bag policy",
@@ -92,13 +113,31 @@ const fallbackEvents = [
     venue: "The Fillmore Detroit",
     timeZone: "ET",
     coordinates: { lat: 42.3388, lng: -83.0518 },
-    startTime: "7:00 PM ET",
+    startTime: "6:00 PM ET",
     capacity: "Verified Monday, April 6, 2026",
     verifiedDate: VERIFIED_DATE,
     security: {
       status: "Venue policy in effect",
       summary: "The Fillmore Detroit is using bag checks, mobile-only tickets, and a no re-entry rule for Monday, April 6, 2026.",
     },
+    nearbyOptions: {
+      parking: [
+        "Fox Theatre parking structures on Montcalm Street",
+        "The Fillmore Detroit surface lots nearby on Woodward",
+        "Opera House and Grand Circus Park garages",
+      ],
+      transit: [
+        "Grand Circus Park station on the QLINE",
+        "Broadway and Grand River bus stops",
+        "People Mover access from nearby downtown stations",
+      ],
+    },
+    accessibility: [
+      "wheelchair",
+      "accessible seating",
+      "assistive listening",
+      "elevator access",
+    ],
     venueInfo: [
       {
         label: "Bag policy",
@@ -121,7 +160,7 @@ const fallbackEvents = [
       {
         label: "Verification",
         title: "Tonight's event",
-        copy: "BOYS LIKE GIRLS is listed at The Fillmore Detroit for Monday, April 6, 2026 with doors at 6:00 PM and show at 7:00 PM.",
+        copy: "BOYS LIKE GIRLS is listed at The Fillmore Detroit for Monday, April 6, 2026 at 6:00 PM. Important info notes doors at 6:00 PM and show at 7:00 PM.",
         url: "https://www.ticketmaster.com/boys-like-girls-the-soundtrack-of-detroit-michigan-04-06-2026/event/08006356ADA62DDF",
       },
     ],
@@ -141,6 +180,23 @@ const fallbackEvents = [
       status: "Venue policy in effect",
       summary: "The Rebel Lounge is enforcing bag searches, no outside food or beverages, and 21+ ID checks for Monday, April 6, 2026.",
     },
+    nearbyOptions: {
+      parking: [
+        "Venue lot along Indian School Road",
+        "Street parking in the immediate venue block",
+        "Overflow neighborhood parking north of the venue",
+      ],
+      transit: [
+        "Valley Metro Route 41 stop on Indian School Road",
+        "Valley Metro Route 3 stop on 24th Street",
+        "Rideshare drop-off directly in front of the venue",
+      ],
+    },
+    accessibility: [
+      "wheelchair",
+      "accessible entry",
+      "all-gender restroom",
+    ],
     venueInfo: [
       {
         label: "Bag policy",
@@ -176,13 +232,31 @@ const fallbackEvents = [
     venue: "Voodoo Room at the House of Blues San Diego",
     timeZone: "PT",
     coordinates: { lat: 32.7137, lng: -117.1591 },
-    startTime: "8:00 PM PT",
+    startTime: "7:00 PM PT",
     capacity: "Verified Monday, April 6, 2026",
     verifiedDate: VERIFIED_DATE,
     security: {
       status: "Venue policy in effect",
       summary: "House of Blues San Diego is enforcing a clear-bag rule, no outside drinks, and no re-entry for Monday, April 6, 2026.",
     },
+    nearbyOptions: {
+      parking: [
+        "Park It On Market garage nearby",
+        "6th & K Parkade in East Village",
+        "Tailgate Park lots within walking distance",
+      ],
+      transit: [
+        "Gaslamp Quarter trolley station",
+        "Convention Center trolley station",
+        "MTS bus stops along 5th Avenue and Market Street",
+      ],
+    },
+    accessibility: [
+      "wheelchair",
+      "accessible restroom",
+      "assistive listening",
+      "elevator access",
+    ],
     venueInfo: [
       {
         label: "Bag policy",
@@ -205,7 +279,7 @@ const fallbackEvents = [
       {
         label: "Verification",
         title: "Tonight's event",
-        copy: "Eliza McLamb is listed at the Voodoo Room for Monday, April 6, 2026 with doors at 7:00 PM and show at 8:00 PM.",
+        copy: "Eliza McLamb is listed at the Voodoo Room for Monday, April 6, 2026 at 7:00 PM.",
         url: "https://www.ticketmaster.com/eliza-mclamb-good-story-tour-san-diego-california-04-06-2026/event/0A006307A0DA6288",
       },
     ],
@@ -225,12 +299,30 @@ const fallbackEvents = [
       status: "Venue policy in effect",
       summary: "The Masonic is enforcing bag checks, mobile entry, and no re-entry for Monday, April 6, 2026.",
     },
+    nearbyOptions: {
+      parking: [
+        "California Street Masonic garage options nearby",
+        "Portsmouth Square and North Beach garages",
+        "Street parking around Nob Hill if available",
+      ],
+      transit: [
+        "California cable car line stop near Taylor Street",
+        "Muni Route 1 California bus stops",
+        "Powell Street BART/Muni connection with uphill rideshare transfer",
+      ],
+    },
+    accessibility: [
+      "wheelchair",
+      "accessible seating",
+      "assistive listening",
+      "elevator access",
+    ],
     venueInfo: [
       {
         label: "Bag policy",
         title: "12 x 6 x 12 bag limit",
         copy: 'Bags must not exceed 12" x 6" x 12". All bags are subject to inspection, and the venue recommends leaving bags at home for faster entry.',
-        url: "https://www.sfmasonic.com/visit?linkId=100000356286802",
+        url: "https://www.sfmasonic.com/faq",
       },
       {
         label: "Bottle policy",
@@ -242,7 +334,7 @@ const fallbackEvents = [
         label: "Entry restrictions",
         title: "Mobile entry and no re-entry",
         copy: "The Masonic uses mobile entry, and re-entry is not permitted once you leave the building.",
-        url: "https://www.sfmasonic.com/visit?linkId=100000356286802",
+        url: "https://www.sfmasonic.com/faq",
       },
       {
         label: "Verification",
@@ -278,14 +370,15 @@ function getLocalDateString() {
     .split("T")[0];
 }
 
-function getCoverageMessage() {
-  if (!verifiedDate || !todayEvents.length) {
-    return "Coverage is ready for the next verified refresh.";
-  }
+function getRequestedDate() {
+  return selectedDate || getLocalDateString();
+}
 
-  const label = formatVerifiedDate(verifiedDate);
-  if (verifiedDate !== getLocalDateString()) {
-    return `Showing ${todayEvents.length} U.S. events verified for ${label}. Daily refresh is still pending for the current browser date.`;
+function getCoverageMessage() {
+  const label = formatVerifiedDate(verifiedDate || getRequestedDate());
+
+  if (!verifiedDate || !todayEvents.length) {
+    return `No U.S. events are currently loaded for ${label}.`;
   }
 
   return `Showing ${todayEvents.length} U.S. events verified for ${label}.`;
@@ -302,50 +395,45 @@ function applyEventsPayload(payload, useFallback = false) {
   selectedEventId = todayEvents[0]?.id || "";
 }
 
-async function loadEventsData() {
+async function loadEventsData(dateString = getRequestedDate()) {
+  selectedDate = dateString;
+
   try {
-    const response = await fetch("https://zmegfwpueygurhnpmycr.supabase.co/storage/v1/object/public/events/refresh-today-events.swift");
+    const url = new URL(EVENTS_API_URL, window.location.origin);
+    url.searchParams.set("date", dateString);
+    const response = await fetch(url, {
+      headers: {
+        Accept: "application/json",
+      },
+    });
+
     if (!response.ok) {
-      throw new Error(`Events feed returned ${response.status}`);
+      throw new Error(`Request failed (${response.status})`);
     }
 
     const payload = await response.json();
-    applyEventsPayload(payload, false);
+    applyEventsPayload(payload);
   } catch (error) {
-    console.error("Events feed failed, using fallback data.", error);
+    console.error("Falling back to bundled event data.", error);
+    const shouldUseFallback = dateString === VERIFIED_DATE;
     applyEventsPayload(
       {
-        verifiedDate: VERIFIED_DATE,
-        events: fallbackEvents,
+        verifiedDate: dateString,
+        events: shouldUseFallback ? fallbackEvents : [],
       },
-      true
+      shouldUseFallback
     );
   }
 }
-// existing loadEvents function
-async function loadEvents() {
-  const res = await fetch("https://zmegfwpueygurhnpmycr.supabase.co/storage/v1/object/public/events/today-events.json");
-  const events = await res.json();
 
-  const container = document.getElementById("events-container");
-  container.innerHTML = events.map(e => `<div>${e.title}</div>`).join("");
+function syncDateInput() {
+  const today = getLocalDateString();
+  eventDateInput.min = today;
+  if (!eventDateInput.value || eventDateInput.value < today) {
+    eventDateInput.value = selectedDate >= today ? selectedDate : today;
+  }
 }
 
-// call it initially
-loadEvents();
-
-// --- Auto-refresh at midnight CT ---
-function refreshAtMidnightCT() {
-  const now = new Date();
-  const ctOffset = -5; // CDT UTC-5
-  const hoursCT = (now.getUTCHours() + ctOffset + 24) % 24;
-  const msUntilMidnight =
-    ((24 - hoursCT) * 3600 - now.getUTCMinutes() * 60 - now.getUTCSeconds()) * 1000 - now.getUTCMilliseconds();
-
-  setTimeout(() => location.reload(), msUntilMidnight);
-}
-
-refreshAtMidnightCT();
 function populateEvents() {
   eventSelect.innerHTML = "";
   eventSelect.disabled = false;
@@ -862,6 +950,12 @@ function restartLiveEstimateLoop(event) {
 }
 
 function renderArrivalStrategy(event, trafficState) {
+  const minutesUntilStart = getMinutesUntilStart(event);
+  const arrivalLead =
+    minutesUntilStart > 0
+      ? `${minutesUntilStart} minutes until showtime`
+      : "Event start window is active now";
+
   nodes.arrivalStrategy.innerHTML = `
     <div class="travel-stat pulse-in">
       <div class="list-topline">
@@ -873,7 +967,7 @@ function renderArrivalStrategy(event, trafficState) {
     <div class="travel-stat pulse-in">
       <p class="list-label">Best Arrival Window</p>
       <p class="travel-title">${getBestArrivalWindow(event)}</p>
-      <p class="list-copy">Plan to arrive about 60 to 90 minutes before the ${event.startTime} start.</p>
+      <p class="list-copy">Plan to arrive about 60 to 90 minutes before the ${event.startTime} start. ${arrivalLead}.</p>
     </div>
   `;
 }
@@ -915,6 +1009,79 @@ function makeVenueMarkup(items) {
       `
     )
     .join("");
+}
+
+function getAccessibilityIcon(feature) {
+  const icons = {
+    wheelchair: "♿",
+    "accessible parking": "P",
+    "accessible seating": "A",
+    "accessible entry": "↪",
+    "accessible restroom": "WC",
+    "assistive listening": "🔊",
+    elevators: "⬍",
+    "elevator access": "⬍",
+    "quiet zone": "◌",
+    "all-gender restroom": "◎",
+  };
+
+  return icons[feature] || "•";
+}
+
+function makeNearbyMarkup(nearbyOptions = {}) {
+  const parking = Array.isArray(nearbyOptions.parking) ? nearbyOptions.parking : [];
+  const transit = Array.isArray(nearbyOptions.transit) ? nearbyOptions.transit : [];
+
+  if (!parking.length && !transit.length) {
+    return "";
+  }
+
+  const renderList = (items, icon) =>
+    items
+      .map((item) => `<li><span class="nearby-bullet">${icon}</span><span>${item}</span></li>`)
+      .join("");
+
+  return `
+    <div class="venue-item pulse-in">
+      <p class="list-label">Nearby Options</p>
+      <p class="venue-rule-title">Parking and Transit</p>
+      <div class="nearby-grid">
+        <div>
+          <p class="nearby-title">Closest parking lots</p>
+          <ul class="nearby-list">${renderList(parking, "🚗")}</ul>
+        </div>
+        <div>
+          <p class="nearby-title">Transit stops</p>
+          <ul class="nearby-list">${renderList(transit, "🚎")}</ul>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function makeAccessibilityMarkup(features = []) {
+  if (!Array.isArray(features) || !features.length) {
+    return "";
+  }
+
+  return `
+    <div class="venue-item pulse-in">
+      <p class="list-label">Accessibility</p>
+      <p class="venue-rule-title">Accessibility Features</p>
+      <div class="accessibility-tags">
+        ${features
+          .map(
+            (feature) => `
+              <span class="accessibility-tag">
+                <span class="accessibility-icon" aria-hidden="true">${getAccessibilityIcon(feature)}</span>
+                <span>${feature}</span>
+              </span>
+            `
+          )
+          .join("")}
+      </div>
+    </div>
+  `;
 }
 
 function renderEvent(id) {
@@ -966,7 +1133,11 @@ function renderEvent(id) {
   selectedTravelMode = getRecommendedMode(event, getTrafficState(event)).mode;
   nodes.arrivalStrategy.innerHTML = "";
   nodes.gettingThere.innerHTML = "";
-  nodes.venueInfo.innerHTML = makeVenueMarkup(event.venueInfo);
+  nodes.venueInfo.innerHTML = [
+    makeVenueMarkup(event.venueInfo),
+    makeNearbyMarkup(event.nearbyOptions),
+    makeAccessibilityMarkup(event.accessibility),
+  ].join("");
   coverageNote.textContent = getCoverageMessage();
   ensureMap();
   updateDirectionsLink(event);
@@ -999,10 +1170,24 @@ travelModeToggle.addEventListener("click", (event) => {
 });
 
 async function initializeApp() {
-  await loadEventsData();
+  selectedDate = getLocalDateString();
+  syncDateInput();
+  await loadEventsData(selectedDate);
   populateEvents();
   eventSelect.value = selectedEventId;
   renderEvent(selectedEventId);
 }
+
+eventDateInput.addEventListener("change", async (event) => {
+  const today = getLocalDateString();
+  const nextDate =
+    event.target.value && event.target.value >= today ? event.target.value : today;
+  event.target.value = nextDate;
+  selectedDate = nextDate;
+  await loadEventsData(nextDate);
+  populateEvents();
+  eventSelect.value = selectedEventId;
+  renderEvent(selectedEventId);
+});
 
 initializeApp();

@@ -1,8 +1,8 @@
 const { getEventsPayload } = require("../../lib/events-feed");
 
-exports.handler = async function handler() {
+exports.handler = async function handler(event) {
   try {
-    const payload = await getEventsPayload();
+    const payload = await getEventsPayload(event?.queryStringParameters?.date);
     return {
       statusCode: 200,
       headers: {
