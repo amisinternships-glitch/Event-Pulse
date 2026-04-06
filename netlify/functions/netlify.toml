@@ -1,6 +1,3 @@
-[functions]
-  directory = "netlify/functions"
-
 [build]
   publish = "."
   functions = "netlify/functions"
@@ -20,7 +17,6 @@
   [headers.values]
     Cache-Control = "public, max-age=3600"
     
-
-[functions."refresh-events"]
-  schedule = "0 6 * * *"
+[functions]
+  directory = "netlify/functions"
 
