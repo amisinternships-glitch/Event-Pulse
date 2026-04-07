@@ -167,15 +167,27 @@ async function readFallbackPayload() {
   return JSON.parse(raw);
 }
 
-async function getEventsPayload() {
+function normalizeRequestedDate(dateString) {
+  if (typeof dateString !== "string") {
+    return null;
+  }
+
+  return /^\d{4}-\d{2}-\d{2}$/.test(dateString) ? dateString : null;
+}
+
+async function getEventsPayload(requestedDate) {
   const fallbackPayload = await readFallbackPayload();
-  const today = formatDateInTimezone(new Date(), "America/Chicago");
-  const { startDateTime, endDateTime } = toUtcRangeForChicagoDay(today);
+  const dateString =
+    normalizeRequestedDate(requestedDate) ||
+    formatDateInTimezone(new Date(), "America/Chicago");
+  const { startDateTime, endDateTime } = toUtcRangeForChicagoDay(dateString);
   const apiKey = process.env.TICKETMASTER_API_KEY;
+  const fallbackMatchesRequestedDate = fallbackPayload.verifiedDate === dateString;
 
   if (!apiKey) {
     return {
-      ...fallbackPayload,
+      verifiedDate: dateString,
+      events: fallbackMatchesRequestedDate ? fallbackPayload.events || [] : [],
       source: "fallback",
       note: "Set TICKETMASTER_API_KEY in your hosting environment to enable live daily event updates.",
     };
@@ -199,20 +211,23 @@ async function getEventsPayload() {
   const payload = await response.json();
   const venueRuleMap = buildVenueRuleMap(fallbackPayload.events || []);
   const events = (payload?._embedded?.events || [])
-    .map((event) => normalizeTicketmasterEvent(event, venueRuleMap, today))
+    .map((event) => normalizeTicketmasterEvent(event, venueRuleMap, dateString))
     .filter(Boolean)
     .slice(0, 20);
 
   if (!events.length) {
     return {
-      ...fallbackPayload,
-      source: "fallback",
-      note: "Live feed returned no eligible events; serving the curated fallback set.",
+      verifiedDate: dateString,
+      events: fallbackMatchesRequestedDate ? fallbackPayload.events || [] : [],
+      source: fallbackMatchesRequestedDate ? "fallback" : "ticketmaster-live",
+      note: fallbackMatchesRequestedDate
+        ? "Live feed returned no eligible events; serving the curated fallback set."
+        : "Live feed returned no eligible events for the selected date.",
     };
   }
 
   return {
-    verifiedDate: today,
+    verifiedDate: dateString,
     events,
     source: "ticketmaster-live",
   };
