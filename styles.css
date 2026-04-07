@@ -61,6 +61,29 @@ body {
   margin-bottom: 2rem;
 }
 
+.share-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.5rem;
+  padding: 0.7rem 1rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 200, 87, 0.28);
+  background: rgba(255, 200, 87, 0.08);
+  color: var(--text);
+  text-decoration: none;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 0.92rem;
+  letter-spacing: 0.04em;
+  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.share-badge:hover {
+  transform: translateY(-1px);
+  border-color: rgba(255, 200, 87, 0.52);
+  background: rgba(255, 200, 87, 0.14);
+}
+
 .eyebrow,
 .panel-label,
 .summary-label {
@@ -342,17 +365,47 @@ select {
 
 .detail-list strong {
   line-height: 1.35;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
-.rule-list {
-  margin: 0.9rem 0 0;
-  padding-left: 1.1rem;
+.restriction-block {
+  margin-top: 1rem;
+}
+
+.restriction-label {
+  margin: 0 0 0.7rem;
+  color: var(--accent-gold);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.78rem;
+}
+
+.restriction-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+.restriction-card {
+  padding: 0.95rem;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.restriction-card span {
+  display: block;
   color: var(--muted);
+  font-size: 0.88rem;
+  margin-bottom: 0.35rem;
 }
 
-.rule-list li {
-  margin: 0 0 0.55rem;
+.restriction-card strong {
+  display: block;
   line-height: 1.55;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .mapboxgl-popup-content {
@@ -370,7 +423,8 @@ select {
   }
 
   .transport-list,
-  .today-list {
+  .today-list,
+  .restriction-grid {
     grid-template-columns: 1fr;
   }
 

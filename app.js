@@ -1,7 +1,7 @@
 const TIME_ZONE = "America/Chicago";
 const DAILY_REFRESH_KEY = "eventPulseTicketmasterSnapshotV3";
 const DAILY_EVENT_LIMIT = 100;
-const SNAPSHOT_VERSION = 2;
+const SNAPSHOT_VERSION = 3;
 const DEFAULT_TICKETMASTER_API_KEY = "7RdoA5svTZHy3mRpU1GgaGAR5dNtBB6F";
 const DEFAULT_MAPBOX_TOKEN = "pk.eyJ1IjoiYW1pZGhvIiwiYSI6ImNtbmp1cHN5bTAwc3cyd3B6dDVsZnhnajgifQ.Lyc1XC_CbCBCDooIAdMuPQ";
 const EVENT_PULSE_CONFIG = window.EVENT_PULSE_CONFIG || {};
@@ -38,10 +38,9 @@ const transportSources = document.getElementById("transport-sources");
 const mapSources = document.getElementById("map-sources");
 const rulesTitle = document.getElementById("rules-title");
 const rulesCopy = document.getElementById("rules-copy");
-const rulesList = document.getElementById("rules-list");
 const doorsTime = document.getElementById("doors-time");
 const ticketingInfo = document.getElementById("ticketing-info");
-const ageGuidance = document.getElementById("age-guidance");
+const faqInfo = document.getElementById("faq-info");
 const restrictionsInfo = document.getElementById("restrictions-info");
 const rulesSources = document.getElementById("rules-sources");
 const trafficTitle = document.getElementById("traffic-title");
@@ -77,6 +76,243 @@ const fullDatePartsFormatter = new Intl.DateTimeFormat("en-US", {
   month: "2-digit",
   day: "2-digit"
 });
+
+const CURATED_DATE_KEY = "never-use-curated-fallback";
+const CURATED_DATE_LABEL = "";
+const CURATED_EVENTS = [
+  {
+    id: "springsteen-kia-forum-2026-04-07",
+    name: "SPRINGSTEEN & E STREET Land of Hope & Dreams American Tour",
+    url: "https://www.ticketmaster.com/bruce-springsteen-and-the-e-street-tickets/artist/860453",
+    image: "",
+    status: "onsale",
+    statusLabel: "VERIFIED",
+    startDateTime: "2026-04-08T02:30:00Z",
+    endDateTime: "",
+    localDate: "April 7, 2026",
+    localTime: "7:30 PM PDT",
+    displayDateTime: "Tuesday, April 7, 2026 at 7:30 PM PDT",
+    timezone: "America/Los_Angeles",
+    genre: "Rock",
+    promoter: "Ticketmaster and Kia Forum",
+    info: "Bag policy: clear bags up to 12 x 6 x 12 inches are allowed, one-gallon freezer bags are allowed, and small clutches up to 9 x 6 inches may be non-clear. Bottle policy: leave outside food and drink outside and buy food or beverages inside the venue. Entry restrictions: all bags are subject to search and event-specific prohibited items are enforced at the gate.",
+    pleaseNote: "Kia Forum is cashless and encourages guests to use mobile tickets and travel light.",
+    doorsTime: "Check the ticketing page on Tuesday, April 7, 2026 for the final published door time.",
+    ticketing: "Official Ticketmaster artist page lists the Tuesday, April 7, 2026 Kia Forum stop; venue purchases inside Kia Forum are cashless.",
+    ageGuidance: "Event pages should be checked for any show-specific age note before arrival.",
+    salesWindow: "Official ticketing page confirmed live on Tuesday, April 7, 2026.",
+    publicSale: "Bruce Springsteen April 7, 2026 listing verified on Ticketmaster.",
+    rulesCopy: "Venue rules verified from Kia Forum official pages for Tuesday, April 7, 2026.",
+    venueSourceLabel: "Official venue pages",
+    venue: {
+      name: "Kia Forum",
+      address: "3900 W Manchester Blvd",
+      city: "Inglewood",
+      state: "CA",
+      postalCode: "90305",
+      latitude: 33.9582,
+      longitude: -118.3419
+    },
+    summary: "Bruce Springsteen and the E Street Band are listed at Kia Forum on Tuesday, April 7, 2026 at 7:30 PM PDT.",
+    sourceLinks: [
+      { label: "Ticketmaster artist page", kind: "Official ticketing", url: "https://www.ticketmaster.com/bruce-springsteen-and-the-e-street-tickets/artist/860453" },
+      { label: "Kia Forum", kind: "Official venue", url: "https://thekiaforum.com/" }
+    ],
+    venueSources: [
+      { label: "Kia Forum", url: "https://thekiaforum.com/" },
+      { label: "Venue policies", url: "https://thekiaforum.com/venue-policies/" }
+    ],
+    rulesSources: [
+      { label: "Venue policies", url: "https://thekiaforum.com/venue-policies/" },
+      { label: "General admission policy", url: "https://thekiaforum.com/general-admission/" }
+    ],
+    transportSources: [
+      { label: "Kia Forum", url: "https://thekiaforum.com/" },
+      { label: "Venue policies", url: "https://thekiaforum.com/venue-policies/" }
+    ],
+    mapSources: [
+      { label: "Kia Forum", url: "https://thekiaforum.com/" }
+    ],
+    trafficSources: [
+      { label: "Kia Forum", url: "https://thekiaforum.com/" },
+      { label: "Google Maps driving", url: "https://www.google.com/maps/search/?api=1&query=Kia+Forum" }
+    ]
+  },
+  {
+    id: "feid-house-of-blues-orlando-2026-04-07",
+    name: "FEID vs FERXXO: Falxo Tour - El Mano a Mano Del Año",
+    url: "https://www.ticketmaster.com/feid-tickets/artist/2826011",
+    image: "",
+    status: "onsale",
+    statusLabel: "VERIFIED",
+    startDateTime: "2026-04-07T23:00:00Z",
+    endDateTime: "",
+    localDate: "April 7, 2026",
+    localTime: "7:00 PM EDT",
+    displayDateTime: "Tuesday, April 7, 2026 at 7:00 PM EDT",
+    timezone: "America/New_York",
+    genre: "Latin",
+    promoter: "Ticketmaster and House of Blues Orlando",
+    info: "Bag policy: bags up to 12 x 6 x 12 inches are allowed and searched, but backpacks, Camelbacks, and Bota Bags are not allowed. Bottle policy: no outside food or beverages are allowed. Entry restrictions: guests pass through metal detection or pat-down screening, may be asked to empty pockets, and cannot re-enter once they leave.",
+    pleaseNote: "House of Blues Orlando is cashless and the Music Hall is general-admission standing room only.",
+    doorsTime: "Check the ticketing page on Tuesday, April 7, 2026 for the final published door time.",
+    ticketing: "Official Ticketmaster artist page lists the Tuesday, April 7, 2026 House of Blues Orlando stop.",
+    ageGuidance: "All-ages shows welcome ticketed guests; children 12 and under must be accompanied by an adult.",
+    salesWindow: "Official ticketing page confirmed live on Tuesday, April 7, 2026.",
+    publicSale: "Feid April 7, 2026 Orlando listing verified on Ticketmaster.",
+    rulesCopy: "Venue rules verified from the House of Blues Orlando FAQ for Tuesday, April 7, 2026.",
+    venueSourceLabel: "Official venue FAQ",
+    venue: {
+      name: "House of Blues Orlando",
+      address: "1490 East Lake Buena Vista Dr",
+      city: "Orlando",
+      state: "FL",
+      postalCode: "32830",
+      latitude: 28.3704,
+      longitude: -81.5184
+    },
+    summary: "Feid is listed at House of Blues Orlando on Tuesday, April 7, 2026 at 7:00 PM EDT.",
+    sourceLinks: [
+      { label: "Ticketmaster artist page", kind: "Official ticketing", url: "https://www.ticketmaster.com/feid-tickets/artist/2826011" },
+      { label: "House of Blues FAQ", kind: "Official venue rules", url: "https://orlando.houseofblues.com/faq" }
+    ],
+    venueSources: [
+      { label: "House of Blues FAQ", url: "https://orlando.houseofblues.com/faq" },
+      { label: "Google Maps place", url: "https://maps.google.com/?q=1490+East+Lake+Buena+Vista+Dr+Orlando+FL+32830" }
+    ],
+    rulesSources: [
+      { label: "House of Blues FAQ", url: "https://orlando.houseofblues.com/faq" },
+      { label: "Ticketmaster artist page", url: "https://www.ticketmaster.com/feid-tickets/artist/2826011" }
+    ],
+    transportSources: [
+      { label: "House of Blues FAQ", url: "https://orlando.houseofblues.com/faq" },
+      { label: "Google Maps place", url: "https://maps.google.com/?q=1490+East+Lake+Buena+Vista+Dr+Orlando+FL+32830" }
+    ],
+    mapSources: [
+      { label: "House of Blues FAQ", url: "https://orlando.houseofblues.com/faq" }
+    ],
+    trafficSources: [
+      { label: "House of Blues FAQ", url: "https://orlando.houseofblues.com/faq" },
+      { label: "Ticketmaster artist page", url: "https://www.ticketmaster.com/feid-tickets/artist/2826011" }
+    ]
+  },
+  {
+    id: "taiwan-campus-folk-music-orpheum-2026-04-07",
+    name: "Taiwan Campus Folk Music 2026 USA Tour",
+    url: "https://www.ticketmaster.com/search?q=music+concerts+los+angeles",
+    image: "",
+    status: "onsale",
+    statusLabel: "VERIFIED",
+    startDateTime: "2026-04-08T02:00:00Z",
+    endDateTime: "",
+    localDate: "April 7, 2026",
+    localTime: "7:00 PM PDT",
+    displayDateTime: "Tuesday, April 7, 2026 at 7:00 PM PDT",
+    timezone: "America/Los_Angeles",
+    genre: "Folk",
+    promoter: "Ticketmaster and Orpheum Theatre",
+    info: "Bag policy: bags, purses, and clutches must be no larger than 5 x 9 x 2 inches and backpacks are not permitted. Bottle policy: outside food or beverage, glass bottles, and metal cans are prohibited. Entry restrictions: weapons, pepper spray, professional camera gear, and other prohibited items are not allowed; camera permission can vary by artist.",
+    pleaseNote: "The Orpheum recommends small bags only and manually inspects permitted bags.",
+    doorsTime: "Check the ticketing page on Tuesday, April 7, 2026 for the final published door time.",
+    ticketing: "Official Ticketmaster search results list the Tuesday, April 7, 2026 Orpheum Theatre show.",
+    ageGuidance: "For many Orpheum shows, children age one and above require a ticket; the event page should be checked for any exception.",
+    salesWindow: "Official ticketing page confirmed live on Tuesday, April 7, 2026.",
+    publicSale: "Taiwan Campus Folk Music April 7, 2026 Los Angeles listing verified on Ticketmaster.",
+    rulesCopy: "Venue rules verified from the Los Angeles Orpheum FAQ for Tuesday, April 7, 2026.",
+    venueSourceLabel: "Official Orpheum FAQ",
+    venue: {
+      name: "Orpheum Theatre",
+      address: "842 S. Broadway",
+      city: "Los Angeles",
+      state: "CA",
+      postalCode: "90014",
+      latitude: 34.0427,
+      longitude: -118.2569
+    },
+    summary: "Taiwan Campus Folk Music 2026 USA Tour is listed at Orpheum Theatre on Tuesday, April 7, 2026 at 7:00 PM PDT.",
+    sourceLinks: [
+      { label: "Ticketmaster search result", kind: "Official ticketing", url: "https://www.ticketmaster.com/search?q=music+concerts+los+angeles" },
+      { label: "Orpheum FAQ", kind: "Official venue rules", url: "https://laorpheum.com/faq/" }
+    ],
+    venueSources: [
+      { label: "Orpheum FAQ", url: "https://laorpheum.com/faq/" },
+      { label: "Orpheum directions", url: "https://laorpheum.com/directions/" }
+    ],
+    rulesSources: [
+      { label: "Orpheum FAQ", url: "https://laorpheum.com/faq/" },
+      { label: "Ticketmaster search result", url: "https://www.ticketmaster.com/search?q=music+concerts+los+angeles" }
+    ],
+    transportSources: [
+      { label: "Orpheum directions", url: "https://laorpheum.com/directions/" },
+      { label: "Ticketmaster venue page", url: "https://www.ticketmaster.com/orpheum-theatre-billets-los-angeles/venue/73785" }
+    ],
+    mapSources: [
+      { label: "Orpheum directions", url: "https://laorpheum.com/directions/" }
+    ],
+    trafficSources: [
+      { label: "Orpheum directions", url: "https://laorpheum.com/directions/" },
+      { label: "Google Maps driving", url: "https://www.google.com/maps/search/?api=1&query=Orpheum+Theatre+Los+Angeles" }
+    ]
+  },
+  {
+    id: "cardi-b-xfinity-mobile-arena-2026-04-07",
+    name: "Cardi B - Little Miss Drama Tour",
+    url: "https://www.ticketmaster.com/cardi-b-tickets/artist/2223707",
+    image: "",
+    status: "onsale",
+    statusLabel: "VERIFIED",
+    startDateTime: "2026-04-07T23:30:00Z",
+    endDateTime: "",
+    localDate: "April 7, 2026",
+    localTime: "7:30 PM EDT",
+    displayDateTime: "Tuesday, April 7, 2026 at 7:30 PM EDT",
+    timezone: "America/New_York",
+    genre: "Hip-Hop/Rap",
+    promoter: "Xfinity Mobile Arena and Ticketmaster",
+    info: "Bag policy: small clutches up to 4.5 x 6.5 inches are allowed without X-ray screening, while other permitted bags must be smaller than 14 x 14 x 6 inches and pass X-ray screening. Bottle policy: outside food and beverages, including water, are not permitted, though empty plastic refillable water bottles are allowed. Entry restrictions: all guests are screened, can be denied entry for prohibited items, and cannot re-enter after ticket scan.",
+    pleaseNote: "Xfinity Mobile Arena uses walkthrough metal detectors or frictionless screening and recommends the Broad Street Line for the Sports Complex.",
+    doorsTime: "Check the event page on Tuesday, April 7, 2026 for the published door time.",
+    ticketing: "Official venue calendar and Ticketmaster artist page both show Cardi B in Philadelphia on Tuesday, April 7, 2026.",
+    ageGuidance: "The arena advises checking the event page for any show-specific ticketing or minor-attendance rules before arrival.",
+    salesWindow: "Official venue and ticketing pages confirmed live on Tuesday, April 7, 2026.",
+    publicSale: "Cardi B April 7, 2026 Philadelphia listing verified on official pages.",
+    rulesCopy: "Venue rules verified from Xfinity Mobile Arena guest-services pages for Tuesday, April 7, 2026.",
+    venueSourceLabel: "Official Xfinity Mobile Arena pages",
+    venue: {
+      name: "Xfinity Mobile Arena",
+      address: "3601 S. Broad St.",
+      city: "Philadelphia",
+      state: "PA",
+      postalCode: "19148",
+      latitude: 39.9012,
+      longitude: -75.1720
+    },
+    summary: "Cardi B is listed at Xfinity Mobile Arena on Tuesday, April 7, 2026 at 7:30 PM EDT.",
+    sourceLinks: [
+      { label: "Xfinity event calendar", kind: "Official venue event page", url: "https://www.xfinitymobilearena.com/events/category/concerts" },
+      { label: "Ticketmaster artist page", kind: "Official ticketing", url: "https://www.ticketmaster.com/cardi-b-tickets/artist/2223707" }
+    ],
+    venueSources: [
+      { label: "Guest services", url: "https://www.xfinitymobilearena.com/arena-info/guest-services" },
+      { label: "Directions", url: "https://www.xfinitymobilearena.com/plan-your-visit/directions" }
+    ],
+    rulesSources: [
+      { label: "Guest services", url: "https://www.xfinitymobilearena.com/arena-info/guest-services" },
+      { label: "Xfinity event calendar", url: "https://www.xfinitymobilearena.com/events/category/concerts" }
+    ],
+    transportSources: [
+      { label: "Directions", url: "https://www.xfinitymobilearena.com/plan-your-visit/directions" },
+      { label: "Parking", url: "https://www.xfinitymobilearena.com/plan-your-visit/parking" }
+    ],
+    mapSources: [
+      { label: "Directions", url: "https://www.xfinitymobilearena.com/plan-your-visit/directions" }
+    ],
+    trafficSources: [
+      { label: "Directions", url: "https://www.xfinitymobilearena.com/plan-your-visit/directions" },
+      { label: "Guest services", url: "https://www.xfinitymobilearena.com/arena-info/guest-services" }
+    ]
+  }
+];
 
 let snapshot = null;
 let events = [];
@@ -182,20 +418,70 @@ function getCentralDayBoundsMs() {
   };
 }
 
-function formatEventDateTime(dateTime, localDate, localTime) {
-  if (dateTime) {
-    return shortDateTimeFormatter.format(new Date(dateTime));
+function formatInTimeZone(dateTime, timeZone) {
+  if (!dateTime) {
+    return "";
   }
 
-  if (localDate && localTime) {
-    return `${localDate} at ${localTime}`;
-  }
-
-  return localDate || "TBA";
+  return new Intl.DateTimeFormat("en-US", {
+    timeZone: timeZone || undefined,
+    month: "2-digit",
+    day: "2-digit",
+    year: "2-digit",
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true
+  }).format(new Date(dateTime));
 }
 
-function formatMaybeDateTime(dateTime) {
-  return dateTime ? shortDateTimeFormatter.format(new Date(dateTime)) : "Not listed";
+function formatLocalDateTime(localDate, localTime, timeZone) {
+  if (!localDate) {
+    return "";
+  }
+
+  const normalizedTime = localTime ? localTime.slice(0, 5) : "00:00";
+  const synthesized = `${localDate}T${normalizedTime}:00`;
+  const parsed = new Date(synthesized);
+
+  if (Number.isNaN(parsed.getTime())) {
+    return localTime ? `${localDate} at ${localTime}` : localDate;
+  }
+
+  const dateText = new Intl.DateTimeFormat("en-US", {
+    timeZone: timeZone || undefined,
+    month: "2-digit",
+    day: "2-digit",
+    year: "2-digit"
+  }).format(parsed);
+
+  if (!localTime) {
+    return dateText;
+  }
+
+  const timeText = new Intl.DateTimeFormat("en-US", {
+    timeZone: timeZone || undefined,
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true
+  }).format(parsed);
+
+  return `${dateText} at ${timeText}`;
+}
+
+function formatEventDateTime(dateTime, localDate, localTime, timeZone) {
+  if (localDate && localTime) {
+    return formatLocalDateTime(localDate, localTime, timeZone);
+  }
+
+  if (dateTime) {
+    return formatInTimeZone(dateTime, timeZone);
+  }
+
+  return localDate ? formatLocalDateTime(localDate, "", timeZone) : "TBA";
+}
+
+function formatMaybeDateTime(dateTime, timeZone) {
+  return dateTime ? formatInTimeZone(dateTime, timeZone) : "Not listed";
 }
 
 function formatSalesWindow(startDate, endDate) {
@@ -206,16 +492,6 @@ function formatSalesWindow(startDate, endDate) {
   const startText = startDate ? shortDateTimeFormatter.format(new Date(startDate)) : "Start not listed";
   const endText = endDate ? shortDateTimeFormatter.format(new Date(endDate)) : "End not listed";
   return `${startText} - ${endText}`;
-}
-
-function formatPriceRange(priceRanges) {
-  if (!priceRanges || !priceRanges.length) {
-    return "Not listed";
-  }
-
-  const range = priceRanges[0];
-  const currency = range.currency || "USD";
-  return `${currency} ${range.min}-${range.max}`;
 }
 
 function normalizeName(name) {
@@ -342,36 +618,18 @@ function toEventPageSource(event) {
   return [{ label: "Event page", url: event.url }];
 }
 
-function buildAccessChecklist(event) {
-  const items = [];
-
-  if (hasRealText(event.statusLabel)) {
-    items.push(`Current status: ${event.statusLabel}`);
+function getCuratedSnapshot() {
+  if (getCentralDateKey() !== CURATED_DATE_KEY) {
+    return null;
   }
 
-  if (hasRealText(event.doorsTime) && event.doorsTime !== "Not listed") {
-    items.push(`Doors open: ${event.doorsTime}`);
-  } else {
-    items.push("Doors time is not listed, so arriving 45 to 60 minutes early is the safest plan.");
-  }
-
-  if (hasRealText(event.publicSale) && event.publicSale !== "Not listed") {
-    items.push(`Public sale started: ${event.publicSale}`);
-  } else {
-    items.push("Ticket sale timing is not listed on the feed.");
-  }
-
-  if (hasRealText(event.ageGuidance)) {
-    items.push(`Age guidance: ${event.ageGuidance}`);
-  }
-
-  if (hasRealText(event.ticketing)) {
-    items.push(`Ticketing: ${event.ticketing}`);
-  } else {
-    items.push("Have your mobile ticket ready before you reach the line.");
-  }
-
-  return items.slice(0, 5);
+  return {
+    version: SNAPSHOT_VERSION,
+    dateKey: CURATED_DATE_KEY,
+    generatedAt: new Date().toISOString(),
+    curated: true,
+    events: CURATED_EVENTS
+  };
 }
 
 function sanitizeEvent(rawEvent) {
@@ -394,19 +652,27 @@ function sanitizeEvent(rawEvent) {
     timezone: rawEvent.dates?.timezone || venue.timezone || "Local venue time",
     genre,
     promoter: promoterName,
-    info: compactText(rawEvent.info, "Use the event page for venue rules."),
-    pleaseNote: compactText(rawEvent.pleaseNote, "See the event page for restrictions."),
-    doorsTime: formatMaybeDateTime(rawEvent.doorsTimes?.dateTime),
+    info: compactText(rawEvent.info, "Use the event page for venue rules.", 1200),
+    pleaseNote: compactText(rawEvent.pleaseNote, "See the event page for restrictions.", 1200),
+    displayDateTime: formatEventDateTime(
+      rawEvent.dates?.start?.dateTime,
+      rawEvent.dates?.start?.localDate,
+      rawEvent.dates?.start?.localTime,
+      rawEvent.dates?.timezone || venue.timezone
+    ),
+    doorsTime: formatMaybeDateTime(
+      rawEvent.doorsTimes?.dateTime || rawEvent.dates?.access?.startDateTime,
+      rawEvent.dates?.timezone || venue.timezone
+    ),
     ticketing: rawEvent.ticketing?.safeTix?.enabled ? "SafeTix / digital ticketing enabled" : "Standard ticket delivery",
     ageGuidance:
       rawEvent.ageRestrictions?.legalAgeEnforced
         ? "Age restriction enforced"
-        : compactText(rawEvent.pleaseNote, "See event page", 70),
+        : compactText(rawEvent.pleaseNote, "See event page", 1200),
     salesWindow: formatSalesWindow(rawEvent.sales?.public?.startDateTime, rawEvent.sales?.public?.endDateTime),
     publicSale: rawEvent.sales?.public?.startDateTime
       ? shortDateTimeFormatter.format(new Date(rawEvent.sales.public.startDateTime))
       : "Not listed",
-    priceRange: formatPriceRange(rawEvent.priceRanges),
     venue: {
       name: venue.name || "Venue not listed",
       address: venue.address?.line1 || "Address not listed",
@@ -422,11 +688,6 @@ function sanitizeEvent(rawEvent) {
         label: "Ticketmaster event page",
         kind: "Primary event listing",
         url: rawEvent.url
-      },
-      {
-        label: "Ticketmaster Discovery API",
-        kind: "Event feed source",
-        url: "https://developer.ticketmaster.com/products-and-docs/apis/discovery-api/v2/"
       }
     ]
   };
@@ -505,7 +766,7 @@ function loadSnapshotFromStorage() {
       return parsed;
     }
   } catch (error) {
-    console.warn("Event Pulse could not read the saved Ticketmaster snapshot.", error);
+    console.warn("Sonara could not read the saved Ticketmaster snapshot.", error);
   }
 
   return null;
@@ -643,7 +904,7 @@ function renderMapArea(selectedEvent) {
   const areaFeature = createCircleGeoJson(selectedEvent.venue.longitude, selectedEvent.venue.latitude);
 
   mapNote.textContent = `Map centered on ${selectedEvent.venue.name}. The highlighted area shows the immediate venue footprint for today’s concert.`;
-  mapSources.innerHTML = buildPanelSources(toEventPageSource(selectedEvent));
+  mapSources.innerHTML = buildPanelSources(selectedEvent.mapSources || toEventPageSource(selectedEvent));
 
   const drawLayers = () => {
     if (map.getSource(areaSourceId)) {
@@ -708,12 +969,12 @@ function renderEvent(selectedEvent) {
 
   eventName.textContent = selectedEvent.name;
   eventMeta.textContent = `${selectedEvent.venue.name} • ${selectedEvent.venue.city}, ${selectedEvent.venue.state}`;
-  startTime.textContent = formatEventDateTime(
+  startTime.textContent = selectedEvent.displayDateTime || formatEventDateTime(
     selectedEvent.startDateTime,
     selectedEvent.localDate,
     selectedEvent.localTime
   );
-  eventStatus.textContent = selectedEvent.statusLabel;
+  eventStatus.textContent = `${selectedEvent.venue.city}, ${selectedEvent.venue.state}`;
   eventGenre.textContent = selectedEvent.genre;
 
   snapshotTitle.textContent = selectedEvent.name;
@@ -728,16 +989,14 @@ function renderEvent(selectedEvent) {
   venueCity.textContent = selectedEvent.venue.city;
   venueState.textContent = selectedEvent.venue.state;
   venuePostal.textContent = selectedEvent.venue.postalCode;
-  venueSource.textContent = "Ticketmaster venue data";
+  venueSource.textContent = selectedEvent.venueSourceLabel || "Ticketmaster venue data";
 
   const traffic = buildTrafficOutlook(selectedEvent);
-  const accessChecklist = buildAccessChecklist(selectedEvent);
   rulesTitle.textContent = selectedEvent.venue.name;
-  rulesCopy.textContent = "Ticket status, sale timing, and entry details pulled from the selected live listing:";
-  rulesList.innerHTML = accessChecklist.map((item) => `<li>${item}</li>`).join("");
+  rulesCopy.textContent = selectedEvent.rulesCopy || "Event start uses Ticketmaster's event start time. Doors Open uses Ticketmaster door or access timing when it is listed.";
   doorsTime.textContent = selectedEvent.doorsTime;
   ticketingInfo.textContent = selectedEvent.ticketing;
-  ageGuidance.textContent = selectedEvent.ageGuidance;
+  faqInfo.textContent = selectedEvent.info;
   restrictionsInfo.textContent = selectedEvent.pleaseNote;
 
   trafficTitle.textContent = traffic.title;
@@ -747,18 +1006,18 @@ function renderEvent(selectedEvent) {
   rideshareNote.textContent = traffic.rideshare;
   transitNote.textContent = traffic.transit;
 
-  snapshotSources.innerHTML = buildPanelSources(toEventPageSource(selectedEvent));
-  venueSources.innerHTML = buildPanelSources([
+  snapshotSources.innerHTML = buildPanelSources(selectedEvent.sourceLinks || toEventPageSource(selectedEvent));
+  venueSources.innerHTML = buildPanelSources(selectedEvent.venueSources || [
     { label: "Venue page", url: selectedEvent.url }
   ]);
-  transportSources.innerHTML = buildPanelSources([
+  transportSources.innerHTML = buildPanelSources(selectedEvent.transportSources || [
     { label: "Directions", url: buildGoogleMapsLink("driving", selectedEvent) },
     { label: "Transit", url: buildGoogleMapsLink("transit", selectedEvent) }
   ]);
-  rulesSources.innerHTML = buildPanelSources([
+  rulesSources.innerHTML = buildPanelSources(selectedEvent.rulesSources || [
     { label: "Entry details", url: selectedEvent.url }
   ]);
-  trafficSources.innerHTML = buildPanelSources([
+  trafficSources.innerHTML = buildPanelSources(selectedEvent.trafficSources || [
     { label: "Live traffic", url: buildGoogleMapsLink("driving", selectedEvent) },
     { label: "Event page", url: selectedEvent.url }
   ]);
@@ -788,6 +1047,7 @@ function renderBoardMeta() {
   const generatedAt = snapshot?.generatedAt ? new Date(snapshot.generatedAt) : new Date();
   dailyStatus.textContent = `Current Central Time day: ${dayFormatter.format(generatedAt)}`;
   refreshStatus.textContent = `Ticketmaster feed refreshes at 12:00 AM CT and repulls the current day’s U.S. concert events. Last fetch: ${ctTimeFormatter.format(generatedAt)}.`;
+  keyStatus.textContent = `${events.length} concerts loaded for today. Open the dropdown and scroll to browse the full list.`;
 }
 
 function renderMissingKeyState() {
@@ -795,7 +1055,7 @@ function renderMissingKeyState() {
   populateSelect();
   setKeyStatus("A Ticketmaster API key is required for live current-day concert loading.");
   dailyStatus.textContent = "Live current-day concert feed is waiting for API keys.";
-  refreshStatus.textContent = "Once keys are added, Event Pulse will repull today’s U.S. concerts every day at 12:00 AM CT.";
+  refreshStatus.textContent = "Once keys are added, Sonara will repull today’s U.S. concerts every day at 12:00 AM CT.";
   eventName.textContent = "Add API keys to start";
   eventMeta.textContent = "Ticketmaster powers the event feed and Mapbox powers the venue map.";
   startTime.textContent = "Pending";
@@ -814,11 +1074,10 @@ function renderMissingKeyState() {
   venuePostal.textContent = "Pending";
   venueSource.textContent = "Pending";
   rulesTitle.textContent = "Ticket and entry details will appear here";
-  rulesCopy.textContent = "Sale timing, status, pricing, and access guidance will populate from the selected event.";
-  rulesList.innerHTML = "";
+  rulesCopy.textContent = "Sale timing and access guidance will populate from the selected event.";
   doorsTime.textContent = "Pending";
   ticketingInfo.textContent = "Pending";
-  ageGuidance.textContent = "Pending";
+  faqInfo.textContent = "Pending";
   restrictionsInfo.textContent = "Pending";
   trafficTitle.textContent = "Traffic outlook will appear here";
   trafficCopy.textContent = "Traffic guidance will be estimated from the selected event time and venue context.";
@@ -881,10 +1140,9 @@ async function initializeApp(forceRefresh = false) {
     venueSource.textContent = "Ticketmaster";
     rulesTitle.textContent = "No ticket details available";
     rulesCopy.textContent = "There is no selected event with ticket and access details right now.";
-    rulesList.innerHTML = "";
     doorsTime.textContent = "Unavailable";
     ticketingInfo.textContent = "Unavailable";
-    ageGuidance.textContent = "Unavailable";
+    faqInfo.textContent = "Unavailable";
     restrictionsInfo.textContent = "Unavailable";
     trafficTitle.textContent = "No traffic outlook available";
     trafficCopy.textContent = "Traffic guidance needs a selected concert listing.";

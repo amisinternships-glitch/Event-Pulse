@@ -164,5 +164,5 @@ const server = http.createServer(async (request, response) => {
 });
 
 server.listen(PORT, HOST, () => {
-  console.log(`Event Pulse server running at http://${HOST}:${PORT}`);
+  console.log(`Sonara server running at http://${HOST}:${PORT}`);
 });

@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Event Pulse</title>
+    <title>Sonara</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -14,7 +14,7 @@
       href="https://api.mapbox.com/mapbox-gl-js/v3.20.0/mapbox-gl.css"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=8" />
+    <link rel="stylesheet" href="styles.css?v=10" />
   </head>
   <body>
     <div class="background-orb orb-one"></div>
@@ -22,11 +22,19 @@
     <main class="app-shell">
       <section class="hero">
         <div class="eyebrow">U.S. Concert Radar</div>
-        <h1>Event Pulse now tracks today’s concert events.</h1>
+        <h1>Sonara now tracks today’s concert events.</h1>
         <p class="hero-copy">
           Choose a concert pulled from Ticketmaster for the current Central Time
           day, review source links, and explore the venue area on a Mapbox map.
         </p>
+        <a
+          class="share-badge"
+          href="https://shortlink.uk/sonara"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Share Sonara
+        </a>
       </section>
 
       <section class="control-panel">
@@ -50,11 +58,11 @@
           <p id="event-meta" class="summary-meta"></p>
           <div class="summary-grid">
             <div>
-              <span>Local Start</span>
+              <span>Event Start</span>
               <strong id="start-time"></strong>
             </div>
             <div>
-              <span>Status</span>
+              <span>Venue</span>
               <strong id="event-status"></strong>
             </div>
             <div>
@@ -146,7 +154,6 @@
           </div>
           <h3 id="rules-title"></h3>
           <p id="rules-copy" class="panel-copy"></p>
-          <ul id="rules-list" class="rule-list"></ul>
           <div class="detail-list">
             <div>
               <span>Doors</span>
@@ -156,13 +163,18 @@
               <span>Ticketing</span>
               <strong id="ticketing-info"></strong>
             </div>
-            <div>
-              <span>Age Guidance</span>
-              <strong id="age-guidance"></strong>
-            </div>
-            <div>
-              <span>Restrictions</span>
-              <strong id="restrictions-info"></strong>
+          </div>
+          <div class="restriction-block">
+            <p class="restriction-label">Restrictions</p>
+            <div class="restriction-grid">
+              <div class="restriction-card">
+                <span>FAQ</span>
+                <strong id="faq-info"></strong>
+              </div>
+              <div class="restriction-card">
+                <span>Terms &amp; Conditions</span>
+                <strong id="restrictions-info"></strong>
+              </div>
             </div>
           </div>
           <div id="rules-sources" class="panel-sources"></div>
@@ -200,6 +212,6 @@
 
     <script src="config.js?v=8"></script>
     <script src="https://api.mapbox.com/mapbox-gl-js/v3.20.0/mapbox-gl.js"></script>
-    <script src="app.js?v=8"></script>
+    <script src="app.js?v=13"></script>
   </body>
 </html>
