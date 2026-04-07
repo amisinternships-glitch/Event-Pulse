@@ -1,0 +1,12 @@
+{
+  "name": "sonara",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Sonara live U.S. concert tracker",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

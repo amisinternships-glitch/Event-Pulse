@@ -3,10 +3,10 @@ const fs = require("fs");
 const path = require("path");
 const https = require("https");
 
-const PORT = 8787;
-const HOST = "127.0.0.1";
+const PORT = Number(process.env.PORT) || 8787;
+const HOST = process.env.HOST || "0.0.0.0";
 const ROOT = __dirname;
-const TICKETMASTER_API_KEY = "7RdoA5svTZHy3mRpU1GgaGAR5dNtBB6F";
+const TICKETMASTER_API_KEY = process.env.TICKETMASTER_API_KEY || "7RdoA5svTZHy3mRpU1GgaGAR5dNtBB6F";
 const TIME_ZONE = "America/Chicago";
 
 const MIME_TYPES = {
@@ -143,6 +143,11 @@ function serveFile(filePath, response) {
 const server = http.createServer(async (request, response) => {
   const requestUrl = new URL(request.url, `http://${request.headers.host}`);
 
+  if (requestUrl.pathname === "/health") {
+    writeJson(response, 200, { ok: true });
+    return;
+  }
+
   if (requestUrl.pathname === "/api/events/today") {
     try {
       const payload = await fetchTicketmasterEvents();
@@ -164,5 +169,5 @@ const server = http.createServer(async (request, response) => {
 });
 
 server.listen(PORT, HOST, () => {
-  console.log(`Sonara server running at http://${HOST}:${PORT}`);
+  console.log(`Sonara server running on ${HOST}:${PORT}`);
 });
