@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Event Pulse</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Instrument+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://api.mapbox.com/mapbox-gl-js/v3.20.0/mapbox-gl.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css?v=8" />
+  </head>
+  <body>
+    <div class="background-orb orb-one"></div>
+    <div class="background-orb orb-two"></div>
+    <main class="app-shell">
+      <section class="hero">
+        <div class="eyebrow">U.S. Concert Radar</div>
+        <h1>Event Pulse now tracks today’s concert events.</h1>
+        <p class="hero-copy">
+          Choose a concert pulled from Ticketmaster for the current Central Time
+          day, review source links, and explore the venue area on a Mapbox map.
+        </p>
+      </section>
+
+      <section class="control-panel">
+        <div class="selector-card">
+          <label for="event-select">Choose today’s concert</label>
+          <div class="selector-row">
+            <select id="event-select" aria-label="Select a concert"></select>
+            <div class="live-pill">
+              <span class="live-dot"></span>
+              Daily CT refresh
+            </div>
+          </div>
+          <p id="key-status" class="selector-note"></p>
+        </div>
+
+        <div class="summary-card">
+          <p id="daily-status" class="summary-live"></p>
+          <p id="refresh-status" class="summary-refresh"></p>
+          <p class="summary-label">Selected Event</p>
+          <h2 id="event-name"></h2>
+          <p id="event-meta" class="summary-meta"></p>
+          <div class="summary-grid">
+            <div>
+              <span>Local Start</span>
+              <strong id="start-time"></strong>
+            </div>
+            <div>
+              <span>Status</span>
+              <strong id="event-status"></strong>
+            </div>
+            <div>
+              <span>Genre</span>
+              <strong id="event-genre"></strong>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="dashboard-grid">
+        <article class="panel panel-wide">
+          <div class="panel-header">
+            <p class="panel-label">Event Area Map</p>
+            <span class="trend-badge">Mapbox</span>
+          </div>
+          <div id="event-map" class="event-map" aria-label="Event area map"></div>
+          <p id="map-note" class="panel-note"></p>
+          <div id="map-sources" class="panel-sources"></div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-header">
+            <p class="panel-label">Today’s Snapshot</p>
+          </div>
+          <h3 id="snapshot-title"></h3>
+          <p id="snapshot-copy" class="panel-copy"></p>
+          <div class="detail-list">
+            <div>
+              <span>Promoter</span>
+              <strong id="promoter"></strong>
+            </div>
+            <div>
+              <span>Sales Window</span>
+              <strong id="sales-window"></strong>
+            </div>
+            <div>
+              <span>Public On Sale</span>
+              <strong id="public-sale"></strong>
+            </div>
+            <div>
+              <span>Timezone</span>
+              <strong id="event-timezone"></strong>
+            </div>
+          </div>
+          <div id="snapshot-sources" class="panel-sources"></div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-header">
+            <p class="panel-label">Venue Information</p>
+          </div>
+          <h3 id="venue-name"></h3>
+          <p id="venue-address" class="panel-copy"></p>
+          <div class="detail-list">
+            <div>
+              <span>City</span>
+              <strong id="venue-city"></strong>
+            </div>
+            <div>
+              <span>State</span>
+              <strong id="venue-state"></strong>
+            </div>
+            <div>
+              <span>Postal Code</span>
+              <strong id="venue-postal"></strong>
+            </div>
+            <div>
+              <span>Venue Source</span>
+              <strong id="venue-source"></strong>
+            </div>
+          </div>
+          <div id="venue-sources" class="panel-sources"></div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-header">
+            <p class="panel-label">Transportation</p>
+          </div>
+          <div id="transport-list" class="transport-list"></div>
+          <div id="transport-sources" class="panel-sources"></div>
+        </article>
+      </section>
+
+      <section class="bottom-grid">
+        <article class="panel">
+          <div class="panel-header">
+            <p class="panel-label">Tickets & Access</p>
+          </div>
+          <h3 id="rules-title"></h3>
+          <p id="rules-copy" class="panel-copy"></p>
+          <ul id="rules-list" class="rule-list"></ul>
+          <div class="detail-list">
+            <div>
+              <span>Doors</span>
+              <strong id="doors-time"></strong>
+            </div>
+            <div>
+              <span>Ticketing</span>
+              <strong id="ticketing-info"></strong>
+            </div>
+            <div>
+              <span>Age Guidance</span>
+              <strong id="age-guidance"></strong>
+            </div>
+            <div>
+              <span>Restrictions</span>
+              <strong id="restrictions-info"></strong>
+            </div>
+          </div>
+          <div id="rules-sources" class="panel-sources"></div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-header">
+            <p class="panel-label">Traffic Outlook</p>
+          </div>
+          <h3 id="traffic-title"></h3>
+          <p id="traffic-copy" class="panel-copy"></p>
+          <div class="detail-list">
+            <div>
+              <span>Traffic Level</span>
+              <strong id="traffic-level"></strong>
+            </div>
+            <div>
+              <span>Best Time To Leave</span>
+              <strong id="best-leave-time"></strong>
+            </div>
+            <div>
+              <span>Ride Share Note</span>
+              <strong id="rideshare-note"></strong>
+            </div>
+            <div>
+              <span>Transit Note</span>
+              <strong id="transit-note"></strong>
+            </div>
+          </div>
+          <div id="traffic-sources" class="panel-sources"></div>
+        </article>
+      </section>
+
+    </main>
+
+    <script src="config.js?v=8"></script>
+    <script src="https://api.mapbox.com/mapbox-gl-js/v3.20.0/mapbox-gl.js"></script>
+    <script src="app.js?v=8"></script>
+  </body>
+</html>
