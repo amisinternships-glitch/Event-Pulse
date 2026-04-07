@@ -1,8 +1,0 @@
-[build]
-  publish = "."
-  functions = "netlify/functions"
-
-[[redirects]]
-  from = "/api/events/today"
-  to = "/.netlify/functions/events-today"
-  status = 200
