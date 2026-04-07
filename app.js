@@ -39,9 +39,9 @@ const ARRIVAL_ZONE_SOURCE = "arrival-zones";
 const ARRIVAL_ZONE_FILL_LAYER = "arrival-zones-fill";
 const ARRIVAL_ZONE_LINE_LAYER = "arrival-zones-line";
 
-const VERIFIED_DATE = "2026-04-04";
+const VERIFIED_DATE = "2026-04-06";
 const CURRENT_BROWSER_DATE = new Date().toLocaleDateString("en-CA");
-const EVENTS_API_URL = "/.netlify/functions/events";
+const EVENTS_API_URL = "/api/events/today";
 let verifiedDate = null;
 const fallbackEvents = [
   {
@@ -249,9 +249,7 @@ function getCoverageMessage() {
   }
 
   const label = formatVerifiedDate(verifiedDate);
-  if (verifiedDate !== CURRENT_BROWSER_DATE) {
-    return `Showing ${todayEvents.length} U.S. events verified for ${label}. Daily refresh is still pending for the current browser date.`;
-  }
+ 
 
   return `Showing ${todayEvents.length} U.S. events verified for ${label}.`;
 }
