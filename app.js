@@ -522,8 +522,21 @@ function buildPanelSources(sources) {
 }
 
 function quoteDisplayText(text, fallback = "Not listed") {
-  const value = hasRealText(text) ? text : fallback;
+  const value = hasRealText(text) ? cleanRestrictionText(text) : fallback;
   return `“${value}”`;
+}
+
+function cleanRestrictionText(text) {
+  return String(text)
+    .replace(/[_-]{3,}/g, ". ")
+    .replace(/\s+/g, " ")
+    .replace(/([a-z])([A-Z])/g, "$1 $2")
+    .replace(/([A-Z]{2,})([A-Z][a-z])/g, "$1 $2")
+    .replace(/([0-9])([A-Za-z])/g, "$1 $2")
+    .replace(/([A-Za-z])([$])/g, "$1 $2")
+    .replace(/\s*([:;,])\s*/g, "$1 ")
+    .replace(/\s{2,}/g, " ")
+    .trim();
 }
 
 function inferArtistName(name) {
