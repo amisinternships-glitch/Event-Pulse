@@ -1,7 +1,7 @@
 const TIME_ZONE = "America/Chicago";
-const DAILY_REFRESH_KEY = "eventPulseTicketmasterSnapshotV3";
+const DAILY_REFRESH_KEY = "conceriousTicketmasterSnapshotV1";
 const DAILY_EVENT_LIMIT = 100;
-const SNAPSHOT_VERSION = 3;
+const SNAPSHOT_VERSION = 4;
 const DEFAULT_TICKETMASTER_API_KEY = "7RdoA5svTZHy3mRpU1GgaGAR5dNtBB6F";
 const DEFAULT_MAPBOX_TOKEN = "pk.eyJ1IjoiYW1pZGhvIiwiYSI6ImNtbmp1cHN5bTAwc3cyd3B6dDVsZnhnajgifQ.Lyc1XC_CbCBCDooIAdMuPQ";
 const EVENT_PULSE_CONFIG = window.EVENT_PULSE_CONFIG || {};
@@ -21,7 +21,6 @@ const eventGenre = document.getElementById("event-genre");
 const snapshotTitle = document.getElementById("snapshot-title");
 const snapshotCopy = document.getElementById("snapshot-copy");
 const promoter = document.getElementById("promoter");
-const salesWindow = document.getElementById("sales-window");
 const publicSale = document.getElementById("public-sale");
 const eventTimezone = document.getElementById("event-timezone");
 const venueName = document.getElementById("venue-name");
@@ -50,6 +49,10 @@ const bestLeaveTime = document.getElementById("best-leave-time");
 const rideshareNote = document.getElementById("rideshare-note");
 const transitNote = document.getElementById("transit-note");
 const trafficSources = document.getElementById("traffic-sources");
+const artistTitle = document.getElementById("artist-title");
+const artistCopy = document.getElementById("artist-copy");
+const artistAlbumLink = document.getElementById("artist-album-link");
+const artistSongList = document.getElementById("artist-song-list");
 
 const dayFormatter = new Intl.DateTimeFormat("en-US", {
   timeZone: TIME_ZONE,
@@ -77,239 +80,233 @@ const fullDatePartsFormatter = new Intl.DateTimeFormat("en-US", {
   day: "2-digit"
 });
 
-const CURATED_DATE_KEY = "never-use-curated-fallback";
-const CURATED_DATE_LABEL = "";
 const CURATED_EVENTS = [
   {
-    id: "springsteen-kia-forum-2026-04-07",
-    name: "SPRINGSTEEN & E STREET Land of Hope & Dreams American Tour",
-    url: "https://www.ticketmaster.com/bruce-springsteen-and-the-e-street-tickets/artist/860453",
+    id: "opry-country-classics-opry-house-2026-04-09",
+    name: "Opry Country Classics",
+    url: "https://www.opry.com/events/filtered/2026/April",
     image: "",
     status: "onsale",
     statusLabel: "VERIFIED",
-    startDateTime: "2026-04-08T02:30:00Z",
+    startDateTime: "2026-04-10T00:00:00Z",
     endDateTime: "",
-    localDate: "April 7, 2026",
-    localTime: "7:30 PM PDT",
-    displayDateTime: "Tuesday, April 7, 2026 at 7:30 PM PDT",
-    timezone: "America/Los_Angeles",
-    genre: "Rock",
-    promoter: "Ticketmaster and Kia Forum",
-    info: "Bag policy: clear bags up to 12 x 6 x 12 inches are allowed, one-gallon freezer bags are allowed, and small clutches up to 9 x 6 inches may be non-clear. Bottle policy: leave outside food and drink outside and buy food or beverages inside the venue. Entry restrictions: all bags are subject to search and event-specific prohibited items are enforced at the gate.",
-    pleaseNote: "Kia Forum is cashless and encourages guests to use mobile tickets and travel light.",
-    doorsTime: "Check the ticketing page on Tuesday, April 7, 2026 for the final published door time.",
-    ticketing: "Official Ticketmaster artist page lists the Tuesday, April 7, 2026 Kia Forum stop; venue purchases inside Kia Forum are cashless.",
-    ageGuidance: "Event pages should be checked for any show-specific age note before arrival.",
-    salesWindow: "Official ticketing page confirmed live on Tuesday, April 7, 2026.",
-    publicSale: "Bruce Springsteen April 7, 2026 listing verified on Ticketmaster.",
-    rulesCopy: "Venue rules verified from Kia Forum official pages for Tuesday, April 7, 2026.",
-    venueSourceLabel: "Official venue pages",
+    localDate: "April 9, 2026",
+    localTime: "7:00 PM CDT",
+    displayDateTime: "Thursday, April 9, 2026 at 7:00 PM CDT",
+    timezone: "America/Chicago",
+    genre: "Country",
+    promoter: "Grand Ole Opry and AXS",
+    info: "Bag policy: oversized bags are not allowed unless medically necessary, and all bags are subject to search. Bottle policy: outside food and beverages, including water, cans, and bottles, are not permitted inside the Opry House. Entry restrictions: every guest goes through metal-detector screening, prohibited items can be denied at entry, and AXS mobile tickets are the official ticket format for Thursday, April 9, 2026.",
+    pleaseNote: "Official Opry parking guidance says evening-show parking starts at 5:00 PM in the Opry Mills area, with Opry House paid-parking signs posted for drivers. Opry's visit pages also promote Lyft as the official rideshare partner for Thursday, April 9, 2026 arrivals.",
+    doorsTime: "Official Opry and AXS pages list doors at 6:00 PM and showtime at 7:00 PM CDT on Thursday, April 9, 2026.",
+    ticketing: "Official Opry and AXS pages show Opry Country Classics at the Opry House on Thursday, April 9, 2026, featuring The Oak Ridge Boys, John Foster, The Gatlin Brothers, The Isaacs, and Jaelee Roberts.",
+    ageGuidance: "AXS lists Opry Country Classics on Thursday, April 9, 2026 as an all-ages event, and Opry's FAQ says children under 4 may attend shows free when seated with a guardian.",
+    publicSale: "Opry Country Classics Thursday, April 9, 2026 Nashville listing verified on official Opry and AXS pages.",
+    rulesCopy: "Venue rules verified from Opry's official FAQ, safety, and parking pages for Thursday, April 9, 2026.",
+    venueSourceLabel: "Official Opry pages",
     venue: {
-      name: "Kia Forum",
-      address: "3900 W Manchester Blvd",
-      city: "Inglewood",
-      state: "CA",
-      postalCode: "90305",
-      latitude: 33.9582,
-      longitude: -118.3419
+      name: "Opry House",
+      address: "600 Opry Mills Drive",
+      city: "Nashville",
+      state: "TN",
+      postalCode: "37214",
+      latitude: 36.2067,
+      longitude: -86.6925
     },
-    summary: "Bruce Springsteen and the E Street Band are listed at Kia Forum on Tuesday, April 7, 2026 at 7:30 PM PDT.",
+    summary: "Opry Country Classics is listed at the Opry House on Thursday, April 9, 2026 at 7:00 PM CDT.",
     sourceLinks: [
-      { label: "Ticketmaster artist page", kind: "Official ticketing", url: "https://www.ticketmaster.com/bruce-springsteen-and-the-e-street-tickets/artist/860453" },
-      { label: "Kia Forum", kind: "Official venue", url: "https://thekiaforum.com/" }
+      { label: "Opry April calendar", kind: "Official venue event page", url: "https://www.opry.com/events/filtered/2026/April" },
+      { label: "AXS ticket page", kind: "Official ticketing", url: "https://www.axs.com/events/1088105/opry-country-classics-tickets" }
     ],
     venueSources: [
-      { label: "Kia Forum", url: "https://thekiaforum.com/" },
-      { label: "Venue policies", url: "https://thekiaforum.com/venue-policies/" }
+      { label: "Opry House know before you go", url: "https://www.opry.com/plan-your-visit/opry-house" },
+      { label: "Directions, parking, and transportation", url: "https://www.opry.com/plan-your-visit/opry-house/directions-parking-transportation" }
     ],
     rulesSources: [
-      { label: "Venue policies", url: "https://thekiaforum.com/venue-policies/" },
-      { label: "General admission policy", url: "https://thekiaforum.com/general-admission/" }
+      { label: "Opry House FAQs", url: "https://www.opry.com/plan-your-visit/opry-house-faqs" },
+      { label: "Safety and security", url: "https://www.opry.com/plan-your-visit/safety-and-security" }
     ],
     transportSources: [
-      { label: "Kia Forum", url: "https://thekiaforum.com/" },
-      { label: "Venue policies", url: "https://thekiaforum.com/venue-policies/" }
+      { label: "Directions, parking, and transportation", url: "https://www.opry.com/plan-your-visit/opry-house/directions-parking-transportation" },
+      { label: "Opry House know before you go", url: "https://www.opry.com/plan-your-visit/opry-house" }
     ],
     mapSources: [
-      { label: "Kia Forum", url: "https://thekiaforum.com/" }
+      { label: "Directions, parking, and transportation", url: "https://www.opry.com/plan-your-visit/opry-house/directions-parking-transportation" }
     ],
     trafficSources: [
-      { label: "Kia Forum", url: "https://thekiaforum.com/" },
-      { label: "Google Maps driving", url: "https://www.google.com/maps/search/?api=1&query=Kia+Forum" }
+      { label: "Directions, parking, and transportation", url: "https://www.opry.com/plan-your-visit/opry-house/directions-parking-transportation" },
+      { label: "Opry April calendar", url: "https://www.opry.com/events/filtered/2026/April" }
     ]
   },
   {
-    id: "feid-house-of-blues-orlando-2026-04-07",
-    name: "FEID vs FERXXO: Falxo Tour - El Mano a Mano Del Año",
-    url: "https://www.ticketmaster.com/feid-tickets/artist/2826011",
+    id: "mercyme-rio-rancho-events-center-2026-04-09",
+    name: "MercyMe – Awe + Wonder Tour",
+    url: "https://www.rioranchoeventscenter.com/events/mercyme-awe-wonder-tour/",
     image: "",
     status: "onsale",
     statusLabel: "VERIFIED",
-    startDateTime: "2026-04-07T23:00:00Z",
+    startDateTime: "2026-04-10T01:00:00Z",
     endDateTime: "",
-    localDate: "April 7, 2026",
-    localTime: "7:00 PM EDT",
-    displayDateTime: "Tuesday, April 7, 2026 at 7:00 PM EDT",
-    timezone: "America/New_York",
-    genre: "Latin",
-    promoter: "Ticketmaster and House of Blues Orlando",
-    info: "Bag policy: bags up to 12 x 6 x 12 inches are allowed and searched, but backpacks, Camelbacks, and Bota Bags are not allowed. Bottle policy: no outside food or beverages are allowed. Entry restrictions: guests pass through metal detection or pat-down screening, may be asked to empty pockets, and cannot re-enter once they leave.",
-    pleaseNote: "House of Blues Orlando is cashless and the Music Hall is general-admission standing room only.",
-    doorsTime: "Check the ticketing page on Tuesday, April 7, 2026 for the final published door time.",
-    ticketing: "Official Ticketmaster artist page lists the Tuesday, April 7, 2026 House of Blues Orlando stop.",
-    ageGuidance: "All-ages shows welcome ticketed guests; children 12 and under must be accompanied by an adult.",
-    salesWindow: "Official ticketing page confirmed live on Tuesday, April 7, 2026.",
-    publicSale: "Feid April 7, 2026 Orlando listing verified on Ticketmaster.",
-    rulesCopy: "Venue rules verified from the House of Blues Orlando FAQ for Tuesday, April 7, 2026.",
-    venueSourceLabel: "Official venue FAQ",
+    localDate: "April 9, 2026",
+    localTime: "7:00 PM MDT",
+    displayDateTime: "Thursday, April 9, 2026 at 7:00 PM MDT",
+    timezone: "America/Denver",
+    genre: "Christian",
+    promoter: "Rio Rancho Events Center and Ticketmaster",
+    info: "Bag policy: Rio Rancho allows clear bags, diaper bags, and medical bags of any size; other bags must be clear and no larger than 12 x 6 x 12 inches, one clear one-gallon plastic bag is allowed, and a small clutch can be no larger than 4.5 x 8.5 inches. Bottle policy: outside food and beverages plus bottles, cans, coolers, and liquid containers are prohibited. Entry restrictions: venue screening is required, mobile Ticketmaster tickets must be shown on a phone, screenshots are not allowed, and the building enforces no re-entry.",
+    pleaseNote: "Official Rio Rancho guidance says the venue sits near Paseo del Volcan and Unser, roughly 30 to 45 minutes from downtown Albuquerque, with abundant parking that is usually free, east-side accessible parking near the main entrance, and best-available lots if you arrive early.",
+    doorsTime: "Official Rio Rancho and Ticketmaster pages list doors at 5:30 PM and showtime at 7:00 PM MDT on Thursday, April 9, 2026.",
+    ticketing: "Official Rio Rancho and Ticketmaster pages both show MercyMe – Awe + Wonder Tour at Rio Rancho Events Center on Thursday, April 9, 2026.",
+    ageGuidance: "Ticketmaster lists MercyMe - Wonder & Awe Tour on Thursday, April 9, 2026 as an all-ages event.",
+    publicSale: "MercyMe – Awe + Wonder Tour Thursday, April 9, 2026 Rio Rancho listing verified on official venue and Ticketmaster pages.",
+    rulesCopy: "Venue rules verified from Rio Rancho's official arena policies, know-before-you-go, and directions pages for Thursday, April 9, 2026.",
+    venueSourceLabel: "Official Rio Rancho Events Center pages",
     venue: {
-      name: "House of Blues Orlando",
-      address: "1490 East Lake Buena Vista Dr",
-      city: "Orlando",
-      state: "FL",
-      postalCode: "32830",
-      latitude: 28.3704,
-      longitude: -81.5184
+      name: "Rio Rancho Events Center",
+      address: "3001 Civic Center Circle NE",
+      city: "Rio Rancho",
+      state: "NM",
+      postalCode: "87144",
+      latitude: 35.3092,
+      longitude: -106.6868
     },
-    summary: "Feid is listed at House of Blues Orlando on Tuesday, April 7, 2026 at 7:00 PM EDT.",
+    summary: "MercyMe – Awe + Wonder Tour is listed at Rio Rancho Events Center on Thursday, April 9, 2026 at 7:00 PM MDT.",
     sourceLinks: [
-      { label: "Ticketmaster artist page", kind: "Official ticketing", url: "https://www.ticketmaster.com/feid-tickets/artist/2826011" },
-      { label: "House of Blues FAQ", kind: "Official venue rules", url: "https://orlando.houseofblues.com/faq" }
+      { label: "Rio Rancho event page", kind: "Official venue event page", url: "https://www.rioranchoeventscenter.com/events/mercyme-awe-wonder-tour/" },
+      { label: "Ticketmaster event page", kind: "Official ticketing", url: "https://www.ticketmaster.com/mercyme-wonder-awe-tour-rio-rancho-new-mexico-04-09-2026/event/1E006344DC1A5960" }
     ],
     venueSources: [
-      { label: "House of Blues FAQ", url: "https://orlando.houseofblues.com/faq" },
-      { label: "Google Maps place", url: "https://maps.google.com/?q=1490+East+Lake+Buena+Vista+Dr+Orlando+FL+32830" }
+      { label: "Know before you go", url: "https://www.rioranchoeventscenter.com/know-before-you-go/" },
+      { label: "Directions and parking", url: "https://www.rioranchoeventscenter.com/plan-your-visit/directions/" }
     ],
     rulesSources: [
-      { label: "House of Blues FAQ", url: "https://orlando.houseofblues.com/faq" },
-      { label: "Ticketmaster artist page", url: "https://www.ticketmaster.com/feid-tickets/artist/2826011" }
+      { label: "Arena policies", url: "https://www.rioranchoeventscenter.com/plan-your-visit/arena-policies/" },
+      { label: "Know before you go", url: "https://www.rioranchoeventscenter.com/know-before-you-go/" }
     ],
     transportSources: [
-      { label: "House of Blues FAQ", url: "https://orlando.houseofblues.com/faq" },
-      { label: "Google Maps place", url: "https://maps.google.com/?q=1490+East+Lake+Buena+Vista+Dr+Orlando+FL+32830" }
+      { label: "Directions and parking", url: "https://www.rioranchoeventscenter.com/plan-your-visit/directions/" },
+      { label: "Know before you go", url: "https://www.rioranchoeventscenter.com/know-before-you-go/" }
     ],
     mapSources: [
-      { label: "House of Blues FAQ", url: "https://orlando.houseofblues.com/faq" }
+      { label: "Directions and parking", url: "https://www.rioranchoeventscenter.com/plan-your-visit/directions/" }
     ],
     trafficSources: [
-      { label: "House of Blues FAQ", url: "https://orlando.houseofblues.com/faq" },
-      { label: "Ticketmaster artist page", url: "https://www.ticketmaster.com/feid-tickets/artist/2826011" }
+      { label: "Know before you go", url: "https://www.rioranchoeventscenter.com/know-before-you-go/" },
+      { label: "Directions and parking", url: "https://www.rioranchoeventscenter.com/plan-your-visit/directions/" }
     ]
   },
   {
-    id: "taiwan-campus-folk-music-orpheum-2026-04-07",
-    name: "Taiwan Campus Folk Music 2026 USA Tour",
-    url: "https://www.ticketmaster.com/search?q=music+concerts+los+angeles",
+    id: "cleveland-orchestra-schubert-shostakovich-severance-2026-04-09",
+    name: "The Cleveland Orchestra: Schubert & Shostakovich",
+    url: "https://www.clevelandorchestra.com/attend/concerts-and-events/2526/severance/wk-20-schubert/",
     image: "",
     status: "onsale",
     statusLabel: "VERIFIED",
-    startDateTime: "2026-04-08T02:00:00Z",
+    startDateTime: "2026-04-09T23:30:00Z",
     endDateTime: "",
-    localDate: "April 7, 2026",
-    localTime: "7:00 PM PDT",
-    displayDateTime: "Tuesday, April 7, 2026 at 7:00 PM PDT",
-    timezone: "America/Los_Angeles",
-    genre: "Folk",
-    promoter: "Ticketmaster and Orpheum Theatre",
-    info: "Bag policy: bags, purses, and clutches must be no larger than 5 x 9 x 2 inches and backpacks are not permitted. Bottle policy: outside food or beverage, glass bottles, and metal cans are prohibited. Entry restrictions: weapons, pepper spray, professional camera gear, and other prohibited items are not allowed; camera permission can vary by artist.",
-    pleaseNote: "The Orpheum recommends small bags only and manually inspects permitted bags.",
-    doorsTime: "Check the ticketing page on Tuesday, April 7, 2026 for the final published door time.",
-    ticketing: "Official Ticketmaster search results list the Tuesday, April 7, 2026 Orpheum Theatre show.",
-    ageGuidance: "For many Orpheum shows, children age one and above require a ticket; the event page should be checked for any exception.",
-    salesWindow: "Official ticketing page confirmed live on Tuesday, April 7, 2026.",
-    publicSale: "Taiwan Campus Folk Music April 7, 2026 Los Angeles listing verified on Ticketmaster.",
-    rulesCopy: "Venue rules verified from the Los Angeles Orpheum FAQ for Tuesday, April 7, 2026.",
-    venueSourceLabel: "Official Orpheum FAQ",
-    venue: {
-      name: "Orpheum Theatre",
-      address: "842 S. Broadway",
-      city: "Los Angeles",
-      state: "CA",
-      postalCode: "90014",
-      latitude: 34.0427,
-      longitude: -118.2569
-    },
-    summary: "Taiwan Campus Folk Music 2026 USA Tour is listed at Orpheum Theatre on Tuesday, April 7, 2026 at 7:00 PM PDT.",
-    sourceLinks: [
-      { label: "Ticketmaster search result", kind: "Official ticketing", url: "https://www.ticketmaster.com/search?q=music+concerts+los+angeles" },
-      { label: "Orpheum FAQ", kind: "Official venue rules", url: "https://laorpheum.com/faq/" }
-    ],
-    venueSources: [
-      { label: "Orpheum FAQ", url: "https://laorpheum.com/faq/" },
-      { label: "Orpheum directions", url: "https://laorpheum.com/directions/" }
-    ],
-    rulesSources: [
-      { label: "Orpheum FAQ", url: "https://laorpheum.com/faq/" },
-      { label: "Ticketmaster search result", url: "https://www.ticketmaster.com/search?q=music+concerts+los+angeles" }
-    ],
-    transportSources: [
-      { label: "Orpheum directions", url: "https://laorpheum.com/directions/" },
-      { label: "Ticketmaster venue page", url: "https://www.ticketmaster.com/orpheum-theatre-billets-los-angeles/venue/73785" }
-    ],
-    mapSources: [
-      { label: "Orpheum directions", url: "https://laorpheum.com/directions/" }
-    ],
-    trafficSources: [
-      { label: "Orpheum directions", url: "https://laorpheum.com/directions/" },
-      { label: "Google Maps driving", url: "https://www.google.com/maps/search/?api=1&query=Orpheum+Theatre+Los+Angeles" }
-    ]
-  },
-  {
-    id: "cardi-b-xfinity-mobile-arena-2026-04-07",
-    name: "Cardi B - Little Miss Drama Tour",
-    url: "https://www.ticketmaster.com/cardi-b-tickets/artist/2223707",
-    image: "",
-    status: "onsale",
-    statusLabel: "VERIFIED",
-    startDateTime: "2026-04-07T23:30:00Z",
-    endDateTime: "",
-    localDate: "April 7, 2026",
+    localDate: "April 9, 2026",
     localTime: "7:30 PM EDT",
-    displayDateTime: "Tuesday, April 7, 2026 at 7:30 PM EDT",
+    displayDateTime: "Thursday, April 9, 2026 at 7:30 PM EDT",
     timezone: "America/New_York",
-    genre: "Hip-Hop/Rap",
-    promoter: "Xfinity Mobile Arena and Ticketmaster",
-    info: "Bag policy: small clutches up to 4.5 x 6.5 inches are allowed without X-ray screening, while other permitted bags must be smaller than 14 x 14 x 6 inches and pass X-ray screening. Bottle policy: outside food and beverages, including water, are not permitted, though empty plastic refillable water bottles are allowed. Entry restrictions: all guests are screened, can be denied entry for prohibited items, and cannot re-enter after ticket scan.",
-    pleaseNote: "Xfinity Mobile Arena uses walkthrough metal detectors or frictionless screening and recommends the Broad Street Line for the Sports Complex.",
-    doorsTime: "Check the event page on Tuesday, April 7, 2026 for the published door time.",
-    ticketing: "Official venue calendar and Ticketmaster artist page both show Cardi B in Philadelphia on Tuesday, April 7, 2026.",
-    ageGuidance: "The arena advises checking the event page for any show-specific ticketing or minor-attendance rules before arrival.",
-    salesWindow: "Official venue and ticketing pages confirmed live on Tuesday, April 7, 2026.",
-    publicSale: "Cardi B April 7, 2026 Philadelphia listing verified on official pages.",
-    rulesCopy: "Venue rules verified from Xfinity Mobile Arena guest-services pages for Tuesday, April 7, 2026.",
-    venueSourceLabel: "Official Xfinity Mobile Arena pages",
+    genre: "Classical",
+    promoter: "The Cleveland Orchestra",
+    info: "Bag policy: all bags and backpacks are subject to search, and large bags, backpacks, and instrument cases must be checked at coat check before entering the hall. Bottle policy: alcoholic or outside beverages are prohibited, and food and beverages are generally not allowed inside Mandel Concert Hall. Entry restrictions: Open Gate Security checks are in place at all entrances, backpacks must be checked, and photography plus video or audio recording during performances is prohibited.",
+    pleaseNote: "Official Severance parking guidance points drivers to Case Western Reserve University's Lot 29 Campus Center Garage directly beside Severance Music Center, with additional event parking in CWRU Lot 1A, Lot 63, and the Cleveland Botanical Garden garage. Concert previews start one hour before the performance if you want an earlier arrival target.",
+    doorsTime: "Official Cleveland Orchestra guest-services guidance says Severance opens two hours before most performances and Mandel Concert Hall usually opens 30 minutes before curtain, which places Thursday, April 9, 2026 arrival windows around 5:30 PM and 7:00 PM EDT for this 7:30 PM concert.",
+    ticketing: "Official Cleveland Orchestra pages show Schubert & Shostakovich in Mandel Concert Hall at Severance Music Center on Thursday, April 9, 2026, performed by The Cleveland Orchestra with Santtu-Matias Rouvali and Sol Gabetta.",
+    ageGuidance: "The official Cleveland Orchestra concert and guest-services pages for Thursday, April 9, 2026 do not list a separate age restriction.",
+    publicSale: "Schubert & Shostakovich Thursday, April 9, 2026 Cleveland listing verified on official Cleveland Orchestra concert and venue pages.",
+    rulesCopy: "Venue rules verified from The Cleveland Orchestra's official guest-services, venue, and parking pages for Thursday, April 9, 2026.",
+    venueSourceLabel: "Official Cleveland Orchestra pages",
     venue: {
-      name: "Xfinity Mobile Arena",
-      address: "3601 S. Broad St.",
-      city: "Philadelphia",
-      state: "PA",
-      postalCode: "19148",
-      latitude: 39.9012,
-      longitude: -75.1720
+      name: "Mandel Concert Hall at Severance Music Center",
+      address: "11001 Euclid Avenue",
+      city: "Cleveland",
+      state: "OH",
+      postalCode: "44106",
+      latitude: 41.5046,
+      longitude: -81.6117
     },
-    summary: "Cardi B is listed at Xfinity Mobile Arena on Tuesday, April 7, 2026 at 7:30 PM EDT.",
+    summary: "Schubert & Shostakovich is listed at Mandel Concert Hall at Severance Music Center on Thursday, April 9, 2026 at 7:30 PM EDT.",
     sourceLinks: [
-      { label: "Xfinity event calendar", kind: "Official venue event page", url: "https://www.xfinitymobilearena.com/events/category/concerts" },
-      { label: "Ticketmaster artist page", kind: "Official ticketing", url: "https://www.ticketmaster.com/cardi-b-tickets/artist/2223707" }
+      { label: "Cleveland Orchestra concert page", kind: "Official venue event page", url: "https://www.clevelandorchestra.com/attend/concerts-and-events/2526/severance/wk-20-schubert/" },
+      { label: "Season listing", kind: "Official ticketing", url: "https://www.clevelandorchestra.com/posts/schubert-and-shostakovich" }
     ],
     venueSources: [
-      { label: "Guest services", url: "https://www.xfinitymobilearena.com/arena-info/guest-services" },
-      { label: "Directions", url: "https://www.xfinitymobilearena.com/plan-your-visit/directions" }
+      { label: "Severance Music Center", url: "https://www.clevelandorchestra.com/visit/severance-music-center" },
+      { label: "Parking and directions", url: "https://www.clevelandorchestra.com/visit/severance-music-center/parking--directions" }
     ],
     rulesSources: [
-      { label: "Guest services", url: "https://www.xfinitymobilearena.com/arena-info/guest-services" },
-      { label: "Xfinity event calendar", url: "https://www.xfinitymobilearena.com/events/category/concerts" }
+      { label: "Guest services and code of conduct", url: "https://www.clevelandorchestra.com/help/guest-services/" },
+      { label: "Severance Music Center", url: "https://www.clevelandorchestra.com/visit/severance-music-center" }
     ],
     transportSources: [
-      { label: "Directions", url: "https://www.xfinitymobilearena.com/plan-your-visit/directions" },
-      { label: "Parking", url: "https://www.xfinitymobilearena.com/plan-your-visit/parking" }
+      { label: "Parking and directions", url: "https://www.clevelandorchestra.com/visit/severance-music-center/parking--directions" },
+      { label: "Severance Music Center", url: "https://www.clevelandorchestra.com/visit/severance-music-center" }
     ],
     mapSources: [
-      { label: "Directions", url: "https://www.xfinitymobilearena.com/plan-your-visit/directions" }
+      { label: "Parking and directions", url: "https://www.clevelandorchestra.com/visit/severance-music-center/parking--directions" }
     ],
     trafficSources: [
-      { label: "Directions", url: "https://www.xfinitymobilearena.com/plan-your-visit/directions" },
-      { label: "Guest services", url: "https://www.xfinitymobilearena.com/arena-info/guest-services" }
+      { label: "Parking and directions", url: "https://www.clevelandorchestra.com/visit/severance-music-center/parking--directions" },
+      { label: "Cleveland Orchestra concert page", url: "https://www.clevelandorchestra.com/attend/concerts-and-events/2526/severance/wk-20-schubert/" }
+    ]
+  },
+  {
+    id: "angelique-kidjo-strathmore-2026-04-09",
+    name: "Angélique Kidjo",
+    url: "https://www.strathmore.org/events-tickets/in-the-music-center/angelique-kidjo/",
+    image: "",
+    status: "onsale",
+    statusLabel: "VERIFIED",
+    startDateTime: "2026-04-10T00:00:00Z",
+    endDateTime: "",
+    localDate: "April 9, 2026",
+    localTime: "8:00 PM EDT",
+    displayDateTime: "Thursday, April 9, 2026 at 8:00 PM EDT",
+    timezone: "America/New_York",
+    genre: "World / International",
+    promoter: "Strathmore Presents",
+    info: "Bag policy: one bag per person is allowed if it is no larger than 14 x 10 x 13 inches, while backpacks, diaper bags, duffel bags, and suitcases are not permitted. Bottle policy: all outside food and beverages, including alcohol, are prohibited, but Strathmore says plastic bottled water is permitted in the Concert Hall and drinks served in Strathmore reusable cups with lids may be brought to seats. Entry restrictions: security screening may include bag checks and handheld or walkthrough metal detectors, and guests consent to screening on entry.",
+    pleaseNote: "Official Strathmore directions say ticketed Concert Hall parking uses the Grosvenor-Strathmore Metro garage off Tuckerman Lane, Strathmore covers the main-garage cost for Strathmore Presents events, the exit gates open for 30 minutes after the show, and the venue sits directly on Metro's Red Line with a sky-bridge into the Music Center.",
+    doorsTime: "Official Strathmore policies say lobby doors typically open 90 minutes before showtime and house doors 30 minutes before showtime, placing Thursday, April 9, 2026 arrival windows around 6:30 PM and 7:30 PM EDT for this 8:00 PM concert.",
+    ticketing: "Official Strathmore pages show Angélique Kidjo at the Music Center on Thursday, April 9, 2026, with ticketed entry handled through Strathmore's own purchase flow.",
+    ageGuidance: "The official Strathmore event page for Thursday, April 9, 2026 does not list a separate age restriction.",
+    publicSale: "Angélique Kidjo Thursday, April 9, 2026 North Bethesda listing verified on official Strathmore pages.",
+    rulesCopy: "Venue rules verified from Strathmore's official Music Center policies and directions pages for Thursday, April 9, 2026.",
+    venueSourceLabel: "Official Strathmore pages",
+    venue: {
+      name: "The Music Center at Strathmore",
+      address: "5301 Tuckerman Lane",
+      city: "North Bethesda",
+      state: "MD",
+      postalCode: "20852",
+      latitude: 39.0264,
+      longitude: -77.1041
+    },
+    summary: "Angélique Kidjo is listed at the Music Center at Strathmore on Thursday, April 9, 2026 at 8:00 PM EDT.",
+    sourceLinks: [
+      { label: "Strathmore event page", kind: "Official venue event page", url: "https://www.strathmore.org/events-tickets/in-the-music-center/angelique-kidjo/" },
+      { label: "Strathmore ticket policies", kind: "Official ticketing", url: "https://www.strathmore.org/events-tickets/ticket-policies/" }
+    ],
+    venueSources: [
+      { label: "Directions and parking", url: "https://www.strathmore.org/your-visit/directions-parking/" },
+      { label: "Your visit", url: "https://www.strathmore.org/your-visit/" }
+    ],
+    rulesSources: [
+      { label: "Music Center policies", url: "https://www.strathmore.org/your-visit/music-center-policies/" },
+      { label: "Your visit", url: "https://www.strathmore.org/your-visit/" }
+    ],
+    transportSources: [
+      { label: "Directions and parking", url: "https://www.strathmore.org/your-visit/directions-parking/" },
+      { label: "Your visit", url: "https://www.strathmore.org/your-visit/" }
+    ],
+    mapSources: [
+      { label: "Directions and parking", url: "https://www.strathmore.org/your-visit/directions-parking/" }
+    ],
+    trafficSources: [
+      { label: "Directions and parking", url: "https://www.strathmore.org/your-visit/directions-parking/" },
+      { label: "Strathmore event page", url: "https://www.strathmore.org/events-tickets/in-the-music-center/angelique-kidjo/" }
     ]
   }
 ];
@@ -322,6 +319,7 @@ let map;
 let marker;
 let areaSourceId = "event-area";
 let areaOutlineId = "event-area-outline";
+let artistRequestToken = 0;
 
 function getCentralDateParts(date = new Date()) {
   const parts = fullDatePartsFormatter.formatToParts(date);
@@ -523,6 +521,76 @@ function buildPanelSources(sources) {
     .join("");
 }
 
+function quoteDisplayText(text, fallback = "Not listed") {
+  const value = hasRealText(text) ? text : fallback;
+  return `“${value}”`;
+}
+
+function inferArtistName(name) {
+  if (!name) {
+    return "Selected artist";
+  }
+
+  let cleaned = name.replace(/\([^)]*\)/g, " ").trim();
+  cleaned = cleaned.replace(/\s+(featuring|feat\.?|with|special guest|plus)\s+.*$/i, "");
+  cleaned = cleaned.replace(/\s+[–-]\s+(tour|live|with|featuring|feat\.?).*$/i, "");
+  cleaned = cleaned.replace(/\s{2,}/g, " ").trim();
+  return cleaned || name;
+}
+
+function renderArtistLoading(event) {
+  const artistName = event.artistName || inferArtistName(event.name);
+  artistTitle.textContent = artistName;
+  artistCopy.textContent = "Loading artist listening details.";
+  artistAlbumLink.href = `https://open.spotify.com/search/${encodeURIComponent(artistName)}`;
+  artistAlbumLink.classList.remove("is-hidden");
+  artistSongList.innerHTML = "";
+}
+
+function renderArtistFallback(event) {
+  const artistName = event.artistName || inferArtistName(event.name);
+  artistTitle.textContent = artistName;
+  artistCopy.textContent = "Spotify details are approximate here, and the match may not exactly reflect the event artist.";
+  artistAlbumLink.href = `https://open.spotify.com/search/${encodeURIComponent(artistName)}`;
+  artistAlbumLink.classList.remove("is-hidden");
+  artistSongList.innerHTML = "";
+}
+
+async function renderArtistGuide(event) {
+  const requestToken = ++artistRequestToken;
+  const artistName = event.artistName || inferArtistName(event.name);
+
+  renderArtistLoading({ ...event, artistName });
+
+  try {
+    const response = await fetch(`/api/artist-guide?artist=${encodeURIComponent(artistName)}`);
+
+    if (!response.ok) {
+      throw new Error(`Artist guide failed with status ${response.status}`);
+    }
+
+    const payload = await response.json();
+
+    if (requestToken !== artistRequestToken) {
+      return;
+    }
+
+    artistTitle.textContent = payload.artistName || artistName;
+    artistCopy.textContent = `Navigate to ${(payload.artistName || artistName)} on Spotify and preview five songs below. Spotify matches may not exactly reflect the event artist.`;
+    artistAlbumLink.href = payload.spotifyUrl;
+    artistAlbumLink.classList.remove("is-hidden");
+    artistSongList.innerHTML = (payload.topSongs?.length ? payload.topSongs : ["No songs were returned for this artist."])
+      .map((song) => `<li>${song}</li>`)
+      .join("");
+  } catch (error) {
+    if (requestToken !== artistRequestToken) {
+      return;
+    }
+
+    renderArtistFallback({ ...event, artistName });
+  }
+}
+
 function buildGoogleMapsLink(mode, event) {
   const destination = encodeURIComponent(
     `${event.venue.name}, ${event.venue.address}, ${event.venue.city}, ${event.venue.state} ${event.venue.postalCode}`
@@ -618,20 +686,6 @@ function toEventPageSource(event) {
   return [{ label: "Event page", url: event.url }];
 }
 
-function getCuratedSnapshot() {
-  if (getCentralDateKey() !== CURATED_DATE_KEY) {
-    return null;
-  }
-
-  return {
-    version: SNAPSHOT_VERSION,
-    dateKey: CURATED_DATE_KEY,
-    generatedAt: new Date().toISOString(),
-    curated: true,
-    events: CURATED_EVENTS
-  };
-}
-
 function sanitizeEvent(rawEvent) {
   const venue = rawEvent._embedded?.venues?.[0] || {};
   const classification = rawEvent.classifications?.[0] || {};
@@ -669,7 +723,6 @@ function sanitizeEvent(rawEvent) {
       rawEvent.ageRestrictions?.legalAgeEnforced
         ? "Age restriction enforced"
         : compactText(rawEvent.pleaseNote, "See event page", 1200),
-    salesWindow: formatSalesWindow(rawEvent.sales?.public?.startDateTime, rawEvent.sales?.public?.endDateTime),
     publicSale: rawEvent.sales?.public?.startDateTime
       ? shortDateTimeFormatter.format(new Date(rawEvent.sales.public.startDateTime))
       : "Not listed",
@@ -683,6 +736,7 @@ function sanitizeEvent(rawEvent) {
       longitude: Number(venue.location?.longitude)
     },
     summary: `${genre} event listed by Ticketmaster for the current Central Time day.`,
+    artistName: inferArtistName(rawEvent._embedded?.attractions?.[0]?.name || rawEvent.name),
     sourceLinks: [
       {
         label: "Ticketmaster event page",
@@ -766,7 +820,7 @@ function loadSnapshotFromStorage() {
       return parsed;
     }
   } catch (error) {
-    console.warn("Sonara could not read the saved Ticketmaster snapshot.", error);
+      console.warn("Concerious could not read the saved Ticketmaster snapshot.", error);
   }
 
   return null;
@@ -980,7 +1034,6 @@ function renderEvent(selectedEvent) {
   snapshotTitle.textContent = selectedEvent.name;
   snapshotCopy.textContent = selectedEvent.summary;
   promoter.textContent = selectedEvent.promoter;
-  salesWindow.textContent = selectedEvent.salesWindow;
   publicSale.textContent = selectedEvent.publicSale;
   eventTimezone.textContent = selectedEvent.timezone;
 
@@ -996,8 +1049,8 @@ function renderEvent(selectedEvent) {
   rulesCopy.textContent = selectedEvent.rulesCopy || "Event start uses Ticketmaster's event start time. Doors Open uses Ticketmaster door or access timing when it is listed.";
   doorsTime.textContent = selectedEvent.doorsTime;
   ticketingInfo.textContent = selectedEvent.ticketing;
-  faqInfo.textContent = selectedEvent.info;
-  restrictionsInfo.textContent = selectedEvent.pleaseNote;
+  faqInfo.textContent = quoteDisplayText(selectedEvent.info);
+  restrictionsInfo.textContent = quoteDisplayText(selectedEvent.pleaseNote);
 
   trafficTitle.textContent = traffic.title;
   trafficCopy.textContent = traffic.copy;
@@ -1023,6 +1076,7 @@ function renderEvent(selectedEvent) {
   ]);
   renderTransport(selectedEvent);
   renderMapArea(selectedEvent);
+  renderArtistGuide(selectedEvent);
 }
 
 function populateSelect() {
@@ -1055,7 +1109,7 @@ function renderMissingKeyState() {
   populateSelect();
   setKeyStatus("A Ticketmaster API key is required for live current-day concert loading.");
   dailyStatus.textContent = "Live current-day concert feed is waiting for API keys.";
-  refreshStatus.textContent = "Once keys are added, Sonara will repull today’s U.S. concerts every day at 12:00 AM CT.";
+  refreshStatus.textContent = "Once keys are added, Concerious will repull today’s U.S. concerts every day at 12:00 AM CT.";
   eventName.textContent = "Add API keys to start";
   eventMeta.textContent = "Ticketmaster powers the event feed and Mapbox powers the venue map.";
   startTime.textContent = "Pending";
@@ -1064,7 +1118,6 @@ function renderMissingKeyState() {
   snapshotTitle.textContent = "Live event feed is not configured";
   snapshotCopy.textContent = "This app has been rewired for real current-day concerts, but it needs your API keys to fetch Ticketmaster events and draw the Mapbox venue area.";
   promoter.textContent = "Pending";
-  salesWindow.textContent = "Pending";
   publicSale.textContent = "Pending";
   eventTimezone.textContent = "Pending";
   venueName.textContent = "Waiting for Ticketmaster";
@@ -1093,6 +1146,11 @@ function renderMissingKeyState() {
   mapSources.innerHTML = "";
   rulesSources.innerHTML = "";
   trafficSources.innerHTML = "";
+  artistTitle.textContent = "Artist guide will appear here";
+  artistCopy.textContent = "Choose an event to load artist listening details.";
+  artistAlbumLink.href = "#";
+  artistAlbumLink.classList.add("is-hidden");
+  artistSongList.innerHTML = "";
 }
 
 async function initializeApp(forceRefresh = false) {
@@ -1129,7 +1187,6 @@ async function initializeApp(forceRefresh = false) {
     snapshotTitle.textContent = "Feed responded with no qualifying concerts";
     snapshotCopy.textContent = "This means the API worked, but the returned listings did not survive the same-day concert filter.";
     promoter.textContent = "Unavailable";
-    salesWindow.textContent = "Unavailable";
     publicSale.textContent = "Unavailable";
     eventTimezone.textContent = "Unavailable";
     venueName.textContent = "Unavailable";
@@ -1157,6 +1214,11 @@ async function initializeApp(forceRefresh = false) {
     mapSources.innerHTML = "";
     rulesSources.innerHTML = "";
     trafficSources.innerHTML = "";
+    artistTitle.textContent = "No artist guide available";
+    artistCopy.textContent = "Artist info needs a selected concert listing.";
+    artistAlbumLink.href = "#";
+    artistAlbumLink.classList.add("is-hidden");
+    artistSongList.innerHTML = "";
     return;
   }
 

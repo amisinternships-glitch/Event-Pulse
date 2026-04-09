@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sonara</title>
+    <title>Concerious</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -14,7 +14,7 @@
       href="https://api.mapbox.com/mapbox-gl-js/v3.20.0/mapbox-gl.css"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=10" />
+    <link rel="stylesheet" href="styles.css?v=19" />
   </head>
   <body>
     <div class="background-orb orb-one"></div>
@@ -22,7 +22,7 @@
     <main class="app-shell">
       <section class="hero">
         <div class="eyebrow">U.S. Concert Radar</div>
-        <h1>Sonara now tracks today’s concert events.</h1>
+        <h1>Concerious now tracks today’s concert events.</h1>
         <p class="hero-copy">
           Choose a concert pulled from Ticketmaster for the current Central Time
           day, review source links, and explore the venue area on a Mapbox map.
@@ -33,7 +33,7 @@
           target="_blank"
           rel="noreferrer"
         >
-          Share Sonara
+          Share Concerious
         </a>
       </section>
 
@@ -94,10 +94,6 @@
             <div>
               <span>Promoter</span>
               <strong id="promoter"></strong>
-            </div>
-            <div>
-              <span>Sales Window</span>
-              <strong id="sales-window"></strong>
             </div>
             <div>
               <span>Public On Sale</span>
@@ -206,12 +202,30 @@
           </div>
           <div id="traffic-sources" class="panel-sources"></div>
         </article>
+
+        <article class="panel">
+          <div class="panel-header">
+            <p class="panel-label">Get to Know the Artist</p>
+          </div>
+          <h3 id="artist-title"></h3>
+          <p id="artist-copy" class="panel-copy"></p>
+          <a
+            id="artist-album-link"
+            class="share-badge artist-link"
+            href="#"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Open Main Album on Spotify
+          </a>
+          <ol id="artist-song-list" class="song-list"></ol>
+        </article>
       </section>
 
     </main>
 
     <script src="config.js?v=8"></script>
     <script src="https://api.mapbox.com/mapbox-gl-js/v3.20.0/mapbox-gl.js"></script>
-    <script src="app.js?v=13"></script>
+    <script src="app.js?v=19"></script>
   </body>
 </html>

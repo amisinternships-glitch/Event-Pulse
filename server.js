@@ -20,6 +20,15 @@ const MIME_TYPES = {
   ".svg": "image/svg+xml"
 };
 
+const ARTIST_CACHE = new Map();
+
+function normalizeArtistMatch(value) {
+  return (value || "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+}
+
 function getCentralDateParts(date = new Date()) {
   const formatter = new Intl.DateTimeFormat("en-US", {
     timeZone: TIME_ZONE,
@@ -79,6 +88,33 @@ function writeJson(response, statusCode, payload) {
   response.end(JSON.stringify(payload));
 }
 
+function fetchJson(url) {
+  return new Promise((resolve, reject) => {
+    https
+      .get(url, (upstream) => {
+        let data = "";
+
+        upstream.on("data", (chunk) => {
+          data += chunk;
+        });
+
+        upstream.on("end", () => {
+          if (upstream.statusCode && upstream.statusCode >= 400) {
+            reject(new Error(`Upstream request failed with status ${upstream.statusCode}`));
+            return;
+          }
+
+          try {
+            resolve(JSON.parse(data));
+          } catch (error) {
+            reject(error);
+          }
+        });
+      })
+      .on("error", reject);
+  });
+}
+
 function fetchTicketmasterEvents() {
   const { start, end } = getCentralDayRange();
   const url = new URL("https://app.ticketmaster.com/discovery/v2/events.json");
@@ -110,6 +146,82 @@ function fetchTicketmasterEvents() {
       })
       .on("error", reject);
   });
+}
+
+async function fetchArtistGuide(artistName) {
+  const cacheKey = artistName.trim().toLowerCase();
+  const cached = ARTIST_CACHE.get(cacheKey);
+  const now = Date.now();
+
+  if (cached && now - cached.savedAt < 6 * 60 * 60 * 1000) {
+    return cached.payload;
+  }
+
+  const albumUrl = new URL("https://itunes.apple.com/search");
+  albumUrl.searchParams.set("term", artistName);
+  albumUrl.searchParams.set("media", "music");
+  albumUrl.searchParams.set("entity", "album");
+  albumUrl.searchParams.set("attribute", "artistTerm");
+  albumUrl.searchParams.set("limit", "5");
+
+  const songsUrl = new URL("https://itunes.apple.com/search");
+  songsUrl.searchParams.set("term", artistName);
+  songsUrl.searchParams.set("media", "music");
+  songsUrl.searchParams.set("entity", "song");
+  songsUrl.searchParams.set("attribute", "artistTerm");
+  songsUrl.searchParams.set("limit", "10");
+
+  const [albumResults, songResults] = await Promise.all([
+    fetchJson(albumUrl),
+    fetchJson(songsUrl)
+  ]);
+
+  const album = (albumResults.results || []).find((item) => item.collectionName) || null;
+  const topSongs = [];
+  const seenTracks = new Set();
+
+  for (const item of songResults.results || []) {
+    if (!item.trackName) {
+      continue;
+    }
+
+    const key = item.trackName.toLowerCase();
+    if (seenTracks.has(key)) {
+      continue;
+    }
+
+    seenTracks.add(key);
+    topSongs.push(item.trackName);
+
+    if (topSongs.length === 5) {
+      break;
+    }
+  }
+
+  const spotifyQuery = album?.collectionName
+    ? `${artistName} ${album.collectionName}`
+    : artistName;
+
+  const payload = {
+    artistName,
+    albumTitle: album?.collectionName || `Best Spotify match for ${artistName}`,
+    spotifyUrl: `https://open.spotify.com/search/${encodeURIComponent(spotifyQuery)}/albums`,
+    spotifyFound: true,
+    topSongs,
+    sources: [
+      {
+        label: "Spotify album",
+        url: `https://open.spotify.com/search/${encodeURIComponent(spotifyQuery)}/albums`
+      }
+    ]
+  };
+
+  ARTIST_CACHE.set(cacheKey, {
+    savedAt: now,
+    payload
+  });
+
+  return payload;
 }
 
 function serveFile(filePath, response) {
@@ -164,10 +276,29 @@ const server = http.createServer(async (request, response) => {
     return;
   }
 
+  if (requestUrl.pathname === "/api/artist-guide") {
+    const artist = requestUrl.searchParams.get("artist");
+
+    if (!artist) {
+      writeJson(response, 400, { error: "artist query parameter is required" });
+      return;
+    }
+
+    try {
+      const payload = await fetchArtistGuide(artist);
+      writeJson(response, 200, payload);
+    } catch (error) {
+      writeJson(response, 502, {
+        error: error.message
+      });
+    }
+    return;
+  }
+
   const pathname = requestUrl.pathname === "/" ? "/index.html" : requestUrl.pathname;
   serveFile(pathname, response);
 });
 
 server.listen(PORT, HOST, () => {
-  console.log(`Sonara server running on ${HOST}:${PORT}`);
+  console.log(`Concerious server running on ${HOST}:${PORT}`);
 });
