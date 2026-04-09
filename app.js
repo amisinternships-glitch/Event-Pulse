@@ -53,6 +53,7 @@ const artistTitle = document.getElementById("artist-title");
 const artistCopy = document.getElementById("artist-copy");
 const artistAlbumLink = document.getElementById("artist-album-link");
 const artistSongList = document.getElementById("artist-song-list");
+const artistAlbumArt = document.getElementById("artist-album-art");
 
 const dayFormatter = new Intl.DateTimeFormat("en-US", {
   timeZone: TIME_ZONE,
@@ -558,6 +559,8 @@ function renderArtistLoading(event) {
   artistAlbumLink.href = `https://open.spotify.com/search/${encodeURIComponent(artistName)}`;
   artistAlbumLink.classList.remove("is-hidden");
   artistSongList.innerHTML = "";
+  artistAlbumArt.src = "";
+  artistAlbumArt.classList.add("is-hidden");
 }
 
 function renderArtistFallback(event) {
@@ -567,6 +570,8 @@ function renderArtistFallback(event) {
   artistAlbumLink.href = `https://open.spotify.com/search/${encodeURIComponent(artistName)}`;
   artistAlbumLink.classList.remove("is-hidden");
   artistSongList.innerHTML = "";
+  artistAlbumArt.src = "";
+  artistAlbumArt.classList.add("is-hidden");
 }
 
 async function renderArtistGuide(event) {
@@ -595,6 +600,13 @@ async function renderArtistGuide(event) {
     artistSongList.innerHTML = (payload.topSongs?.length ? payload.topSongs : ["No songs were returned for this artist."])
       .map((song) => `<li>${song}</li>`)
       .join("");
+    if (payload.artworkUrl) {
+      artistAlbumArt.src = payload.artworkUrl;
+      artistAlbumArt.classList.remove("is-hidden");
+    } else {
+      artistAlbumArt.src = "";
+      artistAlbumArt.classList.add("is-hidden");
+    }
   } catch (error) {
     if (requestToken !== artistRequestToken) {
       return;
@@ -1164,6 +1176,8 @@ function renderMissingKeyState() {
   artistAlbumLink.href = "#";
   artistAlbumLink.classList.add("is-hidden");
   artistSongList.innerHTML = "";
+  artistAlbumArt.src = "";
+  artistAlbumArt.classList.add("is-hidden");
 }
 
 async function initializeApp(forceRefresh = false) {
@@ -1232,6 +1246,8 @@ async function initializeApp(forceRefresh = false) {
     artistAlbumLink.href = "#";
     artistAlbumLink.classList.add("is-hidden");
     artistSongList.innerHTML = "";
+    artistAlbumArt.src = "";
+    artistAlbumArt.classList.add("is-hidden");
     return;
   }
 

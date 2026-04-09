@@ -207,6 +207,7 @@ async function fetchArtistGuide(artistName) {
     albumTitle: album?.collectionName || `Best Spotify match for ${artistName}`,
     spotifyUrl: `https://open.spotify.com/search/${encodeURIComponent(spotifyQuery)}/albums`,
     spotifyFound: true,
+    artworkUrl: album?.artworkUrl100 ? album.artworkUrl100.replace(/100x100bb/g, "600x600bb") : "",
     topSongs,
     sources: [
       {

@@ -429,6 +429,20 @@ select {
   line-height: 1.5;
 }
 
+.artist-album-art {
+  display: block;
+  width: 100%;
+  margin-top: 1rem;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  object-fit: cover;
+  aspect-ratio: 1 / 1;
+}
+
+.artist-album-art.is-hidden {
+  display: none;
+}
+
 .mapboxgl-popup-content {
   font-family: "Instrument Sans", sans-serif;
   background: #0b1525;

@@ -14,7 +14,7 @@
       href="https://api.mapbox.com/mapbox-gl-js/v3.20.0/mapbox-gl.css"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=20" />
+    <link rel="stylesheet" href="styles.css?v=21" />
   </head>
   <body>
     <div class="background-orb orb-one"></div>
@@ -27,14 +27,6 @@
           Choose a concert pulled from Ticketmaster for the current Central Time
           day, review source links, and explore the venue area on a Mapbox map.
         </p>
-        <a
-          class="share-badge"
-          href="https://shortlink.uk/sonara"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Share Concerious
-        </a>
       </section>
 
       <section class="control-panel">
@@ -219,6 +211,12 @@
             Open Main Album on Spotify
           </a>
           <ol id="artist-song-list" class="song-list"></ol>
+          <img
+            id="artist-album-art"
+            class="artist-album-art is-hidden"
+            src=""
+            alt="Album cover art"
+          />
         </article>
       </section>
 
@@ -226,6 +224,6 @@
 
     <script src="config.js?v=8"></script>
     <script src="https://api.mapbox.com/mapbox-gl-js/v3.20.0/mapbox-gl.js"></script>
-    <script src="app.js?v=20"></script>
+    <script src="app.js?v=21"></script>
   </body>
 </html>
